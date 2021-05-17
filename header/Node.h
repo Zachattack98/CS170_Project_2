@@ -3,33 +3,31 @@
 
 #include <bits/stdc++.h>
 #include <cstdlib.h>  //random
+#include <ctime>
 using namespace std;
 
 //use struct as its members are public by default
 class Node {
     public:
         float accuracy; //data; accuracy represents the percentage of the evaluation
-        float P_level;  //significance level; used to find all features unneccsary ( > P_level)
-        Node* left_child, right_child;
+        //int features;
+    
         Node* parent = nullptr;
+        Node* left_child = nullptr;
+        Node* right_child = nullptr;
 
-        // val is the value that has to be added to the data part
-        Node() {
-            int val;
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    cout << "Insert value for row " << i << " and column " << j << ":" << endl;
-                    cin >> val;
-                    data[i][j] = val;
-                }
-            }
-        }
+        Node() {}
 
+        // get the accuracy as the data found at each node
         //f is the number of features used in the search
         Node(int f){
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    data[i][j] = f;
+            srand((unsigned int)time(NULL));
+
+            //there will always be 2^f combinations
+            for (int i = 0; i < f; i++) {
+                for (int j = 0; j < f; j++) {
+                    //generate a random evaluation (or percentage) within each node
+                    accuracy[i][j] = ((float)rand()/(float)(RAND_MAX)) * 100.0;
                 }
             }
 
