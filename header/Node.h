@@ -2,16 +2,16 @@
 #define NODE_H_
 
 #include <bits/stdc++.h>
-#include <cstdlib.h>  //random
+//#include <cstdlib.h>  //random
 #include <ctime>
 using namespace std;
 
 //use struct as its members are public by default
 class Node {
     public:
-        float accuracy; //data; accuracy represents the percentage of the evaluation
+        float accuracy[100][100]; //data; accuracy represents the percentage of the evaluation
         //int features;
-    
+        int cost;
         Node* parent = nullptr;
         Node* left_child = nullptr;
         Node* right_child = nullptr;
