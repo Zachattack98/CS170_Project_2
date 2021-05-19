@@ -6,36 +6,22 @@
 #include <ctime>
 using namespace std;
 
-//use struct as its members are public by default
+enum feature {A, B, C, D};
+
 class Node {
     public:
-        float accuracy[100][100]; //data; accuracy represents the percentage of the evaluation
-        //int features;
-        int cost;
-        Node* parent = nullptr;
-        Node* left_child = nullptr;
-        Node* right_child = nullptr;
+        vector<Node*> parents;
+        vector<Node*> children;
+        vector<feature> curr_features;
+        double p_value;
 
-        Node() {}
-
-        // get the accuracy as the data found at each node
-        //f is the number of features used in the search
-        Node(int f){
-            srand((unsigned int)time(NULL));
-
-            //there will always be 2^f combinations
-            for (int i = 0; i < f; i++) {
-                for (int j = 0; j < f; j++) {
-                    //generate a random evaluation (or percentage) within each node
-                    accuracy[i][j] = ((float)rand()/(float)(RAND_MAX)) * 100.0;
-                }
-            }
-
-            // Left and right child are empty at the start
-            left_child = NULL;
-            right_child = NULL;
+        Node() {
+             children.pop_back();
         }
 
+        Node(Node* parent) {
+            parents.push_back(parent);
+        }
 };
 
 #endif
