@@ -9,41 +9,60 @@ using namespace std;
 //Greedy Bachward Elimination
 class Eliminate {
   public:
-    float P_value = 0.05;  //step 1) significance level (5%); used to find all features unneccsary ( > P_level)
-    int eliminated; //totl number of features that were eliminated
-  
-    float Eliminate(Node* root, int features){
+    int eliminated; //total number of features that were eliminated
+    vector<feature> bw_features; //new subset of features; does not contain any removed
+    char highest_accuracy_bw;
+    
+    void Eliminate(Node* root, char features, float accuracy){
       Tree* tree = new Tree(root)
         
-      //step 2) retrieve all values found at each node in the tree then push to vector to store them
+      //provide random values to all avalable combinations
       for (int i = 0; i < features; i++) {
         for (int j = 0; j < features; j++) {
-          tree->explored.push_back(root->accuracy[i + j]);
+          if (i != 0 && j != 0)
+            tree->explored.push_back(accuracy[i][j])
+          //tree->explored.push_back(root->accuracy[i + j]);
         }
       }
       
-      //show accuracy after using each feature individually
-      for (int i = 0; i < features; i++) {
-          cout << "\nFeature " << i << " shows a predictor value of " << tree->explored << "%";
+      while(features != feature) {
+
+        if(features > feature) {
+          addFeatures(features);
+        }
+
+        else if(features < f_init) {
+          removeFeatures(features);
+        }
+
       }
-      
-      
-      //step 3) check for the predictor/value of all nodes to see which is highest
-      
-      for (int j = 0; j < features; j++) {
-        cout << "\n\nFeature " << j << " is currently the best predictor, " << tree->explored << "%" ;
+
+      //begin going down the tree from root
+      while(features) {
+        int j = 0;
+        
+        //displaying accuracy of each subset
+        for (int i = 0; i < features; i++) {
+          cout << "\nFeature(s) " << feature(i) << " shows an accuracy value of " << tree->explored[0][i] << "%";
+          
+          //if you find a higher accuracy, make that node the new parent
+          if(i != 0 && (tree->explored[0][i-1] < tree->explored[0][i])) {
+            root->parent.at(i);
+
+            //pop the last subset then include the new (highest) subset
+            bw_features.pop();
+            bw_features.push_back(root->children.at(i));
+          }
+
+        }
+
+        features--; 
+        j++;
       }
-      
-      
-      //step 4) if highest predictor is higher than P-value, then 
-      //step 5) eliminate that feature from the stack/list and find next highest in step 3)
-      
-      //step 6) once highest predictor found is less than P-value, all remaining features return as valid
-      
+        
+      eliminated = (int)features - int(bw_features);
+
       cout << "\n\nA total of " << eliminated << " features were eliminated! Leaving us with the following set: ";
-      
     }
   
 };
-
-#endif
