@@ -6,21 +6,33 @@
 #include <ctime>
 using namespace std;
 
-enum feature {A, B, C, D};
-
 class Node {
     public:
-        vector<Node*> parents;
+        Node* parent;
         vector<Node*> children;
-        vector<feature> curr_features;
-        double p_value;
+        vector<char> curr_features;
+        float p_value;
 
         Node() {
              children.pop_back();
         }
 
-        Node(Node* parent) {
-            parents.push_back(parent);
+        Node(Node* node) {
+            parent = node;
+        }
+
+        void addFeatures(char c) {
+            for (int i = 0; i < parent->curr_features.size(); i++) {
+                curr_features.push_back(parent->curr_features.at(i));
+            }
+            curr_features.push_back(c);
+        }
+
+        void removeFeatures(char c) {
+            for (int i = 0; i < parent->curr_features.size(); i++) {
+                if (parent->curr_features.at(i) != c)
+                    curr_features.push_back(parent->curr_features.at(i));
+            }
         }
 };
 
