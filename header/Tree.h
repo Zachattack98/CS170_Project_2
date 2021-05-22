@@ -9,13 +9,13 @@ using namespace std;
 class Tree {
   public:
     Node* root;
+    Node* currNode;
     int expanded = 0;
 
     //initialize the tree
     Tree(Node* input_root) {
-        if (input_root == NULL)
-            return;
         this->root = input_root;
+        this->currNode = input_root;
     }
 
 };

@@ -2,6 +2,7 @@
 #include "Tree.h"
 //#include "problem.h"
 #include <iostream>
+#include "forward_selection.h"
 
 using namespace std;
 
@@ -10,21 +11,24 @@ int main() {
     cout << "Welcome to Khuaja Sham's and Zachary Hill's Feature Selection Algorithm." << endl;
 
     while(1) {
-        Node *root;
         int Algorithm;
         int nfeatures;
 
-        cout << endl << "Enter the number of features used in this algorithm: " << endl;
-        cin >> nfeatures;
-
-        cout << endl << "Now select the type of algorithm from the list below"
-             << "------------------------------------------------------"
-             << "1. Forward Selection\n2. Backward Elimination\n3. Our Special Algorithm (not ready yet)"
-             << endl;
-        cin >> Algorithm;
+//        cout << endl << "Enter the number of features used in this algorithm: " << endl;
+//        cin >> nfeatures;
+//
+//        cout << endl << "Now select the type of algorithm from the list below"
+//             << "------------------------------------------------------"
+//             << "1. Forward Selection\n2. Backward Elimination\n3. Our Special Algorithm (not ready yet)"
+//             << endl;
+//        cin >> Algorithm;
 
         //Problem problem;
         //problem.algorithmchoice = Algorithm;
+        Select* forward_selection = new Select();
+        forward_selection->forwardSelect();
+
+
 
         /*if (problem.GraphSearch(root)) {
             cout << "Solution Found!" << endl;

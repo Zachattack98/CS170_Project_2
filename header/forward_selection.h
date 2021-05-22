@@ -3,47 +3,110 @@
 
 #include <bits/stdc++.h>
 #include "Node.h"
+#include "Tree.h"
 
 using namespace std;
 
 //Greedy Forward Selection
 class Select {
 public:
+    Node* root;
+    vector<char> curr_features;
     float P_value = 0.05;  //step 1) significance level (5%); used to find all features unneccsary ( > P_level)
     int selected; //total number of features that were selected
 
-    float Select(Node* root, int features){
-        Tree* tree = new Tree(root)
-
-        //step 2) retrieve all values found at each node in the tree then push to vector to store them
-        for (int i = 0; i < features; i++) {
-            for (int j = 0; j < features; j++) {
-                tree->explored.push_back(root->accuracy[i + j]);
-            }
-        }
-
-        //show accuracy after using each feature individually
-        for (int i = 0; i < features; i++) {
-            cout << "\nFeature " << i << " shows a predictor value of " << tree->explored << "%";
-        }
-
-
-        //step 3) check for the predictor/value of all nodes to see which is highest
-
-        for (int j = 0; j < features; j++) {
-            cout << "\n\nFeature " << j << " is currently the best predictor, " << tree->explored << "%" ;
-        }
-
-
-        //step 4) if highest predictor is higher than P-value, then
-        //step 5) eliminate that feature from the stack/list and find next highest in step 3)
-
-        //step 6) once highest predictor found is less than P-value, all remaining features return as valid
-
-        cout << "\n\nA total of " << eliminated << " features were eliminated! Leaving us with the following set: ";
-
+    Select() {
+        root = new Node();
     }
 
+    void forwardSelect(){
+        Tree* tree = new Tree(root);
+        expandChildren(tree);
+        pickChild(tree);
+        cout << tree->currNode->curr_features.at(0) << endl;
+    }
+
+    void expandChildren(Tree* tree) {
+        int feature_size;
+        vector<char> new_features;
+        Node* currNode = tree->currNode;
+        cout << "size" << tree->currNode->curr_features.size() << endl;
+        feature_size = 4 - curr_features.size();
+
+
+        if (feature_size != 0) {
+            new_features = validFeatures(currNode, feature_size);
+            for (int i = 0; i < feature_size; i++) {
+                Node* newNode = new Node(tree->currNode);
+                newNode->addFeature(new_features.at(i));
+//                cout << new_features.at(i) << " ";
+                currNode->children.push_back(newNode);
+            }
+        }
+    }
+
+    void pickChild(Tree* tree) {
+        Node* currNode = tree->currNode;
+        for (int i = 0; i < 4 - currNode->curr_features.size(); i++) {
+            if (currNode->children.at(i)->curr_features.at(0) == 'c') {
+                tree->currNode = currNode->children.at(i);
+                return;
+            }
+        }
+    }
+
+    //MESSY CODE, for now just want to see if it works. In future will have a for loop that checks if each feature is already in the feature set before adding new feature.
+
+    vector<char> validFeatures(Node* currNode, int feature_size) {
+        vector<char> new_feature;
+        vector<char> invalid_feats;
+        if (feature_size == 4) {
+            new_feature.push_back('a');
+            new_feature.push_back('b');
+            new_feature.push_back('c');
+            new_feature.push_back('d');
+        }
+        else if (feature_size == 3) {
+            invalid_feats.push_back(currNode->curr_features.at(0));
+            if (invalid_feats.at(0) != 'a')
+                new_feature.push_back('a');
+            if (invalid_feats.at(0) != 'b')
+                new_feature.push_back('b');
+            if (invalid_feats.at(0) != 'c')
+                new_feature.push_back('c');
+            if (invalid_feats.at(0) != 'd')
+                new_feature.push_back('d');
+        }
+        else if (feature_size == 2) {
+            invalid_feats.push_back(currNode->curr_features.at(0));
+            invalid_feats.push_back(currNode->curr_features.at(1));
+            if (invalid_feats.at(0) != 'a' && invalid_feats.at(1) != 'a')
+                new_feature.push_back('a');
+            if (invalid_feats.at(0) != 'b' && invalid_feats.at(1) != 'b')
+                new_feature.push_back('b');
+            if (invalid_feats.at(0) != 'c' && invalid_feats.at(1) != 'c')
+                new_feature.push_back('c');
+            if (invalid_feats.at(0) != 'd' && invalid_feats.at(1) != 'd')
+                new_feature.push_back('d');
+        }
+        else if (feature_size == 1) {
+            invalid_feats.push_back(currNode->curr_features.at(0));
+            invalid_feats.push_back(currNode->curr_features.at(1));
+            invalid_feats.push_back(currNode->curr_features.at(2));
+            if (invalid_feats.at(0) != 'a' && invalid_feats.at(1) != 'a' && invalid_feats.at(2) != 'a')
+                new_feature.push_back('a');
+            if (invalid_feats.at(0) != 'b' && invalid_feats.at(1) != 'b' && invalid_feats.at(2) != 'b')
+                new_feature.push_back('b');
+            if (invalid_feats.at(0) != 'c' && invalid_feats.at(1) != 'c' && invalid_feats.at(2) != 'c')
+                new_feature.push_back('c');
+            if (invalid_feats.at(0) != 'd' && invalid_feats.at(1) != 'd' && invalid_feats.at(2) != 'd')
+                new_feature.push_back('d');
+        }
+        else {
+            cout << "feature size: " << feature_size << endl;
+        }
+        return new_feature;
+    }
 };
 
 #endif

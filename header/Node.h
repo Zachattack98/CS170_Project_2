@@ -2,7 +2,7 @@
 #define NODE_H_
 
 #include <bits/stdc++.h>
-//#include <cstdlib.h>  //random
+#include <vector>
 #include <ctime>
 using namespace std;
 
@@ -14,7 +14,7 @@ class Node {
         float accuracy;
 
         Node() {
-             children.pop_back();
+             parent = nullptr;
         }
 
         Node(Node* node) {
