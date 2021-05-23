@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
 
-    cout << "Welcome to Khuaja Sham's and Zachary Hill's Feature Selection Algorithm." << endl;
+    cout << "Welcome to Khuaja Shams's and Zachary Hill's Feature Selection Algorithm." << endl;
 
     while(1) {
         int Algorithm;

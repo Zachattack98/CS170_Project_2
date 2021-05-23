@@ -20,12 +20,12 @@ class Node {
         Node(Node* node) {
             parent = node;
             
-            srand((unsigned int)time(NULL));
-
-            for (int i = 0; i < parent->curr_features.size(); i++) {
-                    //generate a random accuracy (or percentage) within each node
-                    accuracy[i] = ((float)rand()/(float)(RAND_MAX)) * 100.0;
-            }
+//            srand((unsigned int)time(NULL));
+//
+//            for (int i = 0; i < parent->curr_features.size(); i++) {
+//                    //generate a random accuracy (or percentage) within each node
+//                    accuracy[i] = ((float)rand()/(float)(RAND_MAX)) * 100.0;
+//            }
         }
 
         void addFeature(char c) {
