@@ -3,32 +3,41 @@
 //#include "problem.h"
 #include <iostream>
 #include "forward_selection.h"
+#include "backward_elim.h"
 
 using namespace std;
 
 int main() {
 
-    cout << "Welcome to Khuaja Sham's and Zachary Hill's Feature Selection Algorithm." << endl;
+    cout << "Welcome to Khuaja Shams's and Zachary Hill's Feature Selection Algorithm." << endl;
 
-    while(1) {
+    while (1) {
         int Algorithm;
         int nfeatures;
 
-//        cout << endl << "Enter the number of features used in this algorithm: " << endl;
-//        cin >> nfeatures;
-//
-//        cout << endl << "Now select the type of algorithm from the list below"
-//             << "------------------------------------------------------"
-//             << "1. Forward Selection\n2. Backward Elimination\n3. Our Special Algorithm (not ready yet)"
-//             << endl;
-//        cin >> Algorithm;
+        //        cout << endl << "Enter the number of features used in this algorithm: " << endl;
+        //        cin >> nfeatures;
+        //
+        //        cout << endl << "Now select the type of algorithm from the list below"
+        //             << "------------------------------------------------------"
+        //             << "1. Forward Selection\n2. Backward Elimination\n3. Our Special Algorithm (not ready yet)"
+        //             << endl;
+        //        cin >> Algorithm;
 
-        //Problem problem;
-        //problem.algorithmchoice = Algorithm;
+                //Problem problem;
+                //problem.algorithmchoice = Algorithm;
         Select* forward_selection = new Select();
+
+        cout << "----------Forward Selection---------" << endl;
         forward_selection->forwardSelect();
 
 
+        Eliminate* backward_elimination = new Eliminate();
+
+        cout << "----------Backward Elimination---------" << endl;
+        backward_elimination->backwardEliminate();
+
+        cout << "Total features eliminated: " << backward_elimination->eliminated << endl << endl;
 
         /*if (problem.GraphSearch(root)) {
             cout << "Solution Found!" << endl;

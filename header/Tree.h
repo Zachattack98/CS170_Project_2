@@ -1,7 +1,7 @@
 #ifndef TREE_H_
 #define TREE_H_
 
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include "Node.h"
 
 using namespace std;
