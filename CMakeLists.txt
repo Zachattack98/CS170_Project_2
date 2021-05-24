@@ -8,3 +8,4 @@ include_directories(header)
 add_executable(CS170_Project_2
         "header/forward_selection.h"
         mainAI.cpp )
+       
