@@ -22,20 +22,19 @@ public:
     void forwardSelect(){
         Tree *tree = new Tree(root);
         expandChildren(tree);
-        pickChild(tree);
-
+        if (!pickChild(tree))
+            return;
         for (int i = 0; i < 3; i++) {
             expandChildren(tree);
-            pickChild(tree);
+            if (!pickChild(tree))
+                return;
         }
-        return;
     }
 
     void expandChildren(Tree* tree) {
         int feature_size;
         vector<char> new_features;
         Node* currNode = tree->currNode;
-        cout << "size: " << 4 - tree->currNode->curr_features.size() << endl;
         feature_size = 4 - tree->currNode->curr_features.size();
 
 
@@ -52,19 +51,25 @@ public:
         }
     }
 
-    void pickChild(Tree* tree) {
+    bool pickChild(Tree* tree) {
+        bool child_chosen = false;
         Node* currNode = tree->currNode;
-        for (int i = 0; i < 4 - currNode->curr_features.size(); i++) {
-            if (currNode->children.at(i)->curr_features.at(0) == 'c') {
-                tree->currNode = currNode->children.at(i);
-                cout << "child chosen: ";
-                for (int j = 0; j < tree->currNode->curr_features.size(); j++)
-                    cout << tree->currNode->curr_features.at(j) << " ";
-                cout << "\n\n";
-                return;
+        Node* maxNode = tree->currNode;
+        for (int i = 0; i < currNode->children.size(); i++) {
+            if (maxNode->accuracy < tree->currNode->children.at(i)->accuracy) {
+                maxNode = currNode->children.at(i);
+                child_chosen = true;
             }
         }
+        cout << "Node chosen: ";
+        tree->currNode = maxNode;
+        for (int j = 0; j < tree->currNode->curr_features.size(); j++)
+            cout << tree->currNode->curr_features.at(j) << " ";
+        cout << ", Accuracy: " << tree->currNode->accuracy << endl;
+        return child_chosen;
     }
+
+
 
     vector<char> validFeatures(Node* currNode, int feature_size) {
         vector<char> new_feature;

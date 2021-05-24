@@ -4,6 +4,8 @@
 #include <bits/stdc++.h>
 #include <vector>
 #include <ctime>
+#include <time.h>
+
 using namespace std;
 
 class Node {
@@ -15,11 +17,12 @@ class Node {
 
         Node() {
              parent = nullptr;
+             accuracy = setAccuracy();
         }
 
         Node(Node* node) {
             parent = node;
-            
+            accuracy = setAccuracy();
 //            srand((unsigned int)time(NULL));
 //
 //            for (int i = 0; i < parent->curr_features.size(); i++) {
@@ -40,6 +43,10 @@ class Node {
                 if (parent->curr_features.at(i) != c)
                     curr_features.push_back(parent->curr_features.at(i));
             }
+        }
+
+        float setAccuracy() {
+            return rand()%10 + 1;
         }
 };
 
