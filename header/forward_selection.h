@@ -1,5 +1,5 @@
-#ifndef CS170_PROJECT_2_FORWARD_SELECTION_H
-#define CS170_PROJECT_2_FORWARD_SELECTION_H
+#ifndef FORWARD_SELECTION_H
+#define FORWARD_SELECTION_H
 
 //#include <bits/stdc++.h>
 #include "Node.h"
@@ -18,10 +18,6 @@ public:
 
     Select() {
         root = new Node();
-    }
-
-    void forwardSelect() {
-        Tree* tree = new Tree(root);
     }
     
     void forwardSelect(){
