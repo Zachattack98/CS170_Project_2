@@ -28,21 +28,19 @@ public:
         }
     }
 
-<<<<<<< HEAD
     void addFeature(char c) {
         for (int i = 0; i < parent->curr_features.size(); i++) {
             curr_features.push_back(parent->curr_features.at(i));
-=======
+
         Node(Node* node) {
             parent = node;
             
-//            srand((unsigned int)time(NULL));
-//
-//            for (int i = 0; i < parent->curr_features.size(); i++) {
-//                    //generate a random accuracy (or percentage) within each node
-//                    accuracy[i] = ((float)rand()/(float)(RAND_MAX)) * 100.0;
-//            }
->>>>>>> 6dd1b386a82f94df8ad05c03ab2846af02113850
+            srand((unsigned int)time(NULL));
+
+            for (int i = 0; i < parent->curr_features.size(); i++) {
+                    //generate a random accuracy (or percentage) within each node
+                    accuracy[i] = ((float)rand()/(float)(RAND_MAX)) * 100.0;
+            }
         }
         curr_features.push_back(c);
     }

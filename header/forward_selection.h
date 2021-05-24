@@ -11,11 +11,8 @@ using namespace std;
 class Select {
 public:
     Node* root;
-<<<<<<< HEAD
     vector<char> feats = { 'a', 'b', 'c', 'd' };
-=======
-    vector<char> feats = {'a', 'b', 'c', 'd'};
->>>>>>> 6dd1b386a82f94df8ad05c03ab2846af02113850
+
     float P_value = 0.05;  //step 1) significance level (5%); used to find all features unneccsary ( > P_level)
     int selected; //total number of features that were selected
 
@@ -23,13 +20,12 @@ public:
         root = new Node();
     }
 
-<<<<<<< HEAD
     void forwardSelect() {
         Tree* tree = new Tree(root);
-=======
+    }
+    
     void forwardSelect(){
         Tree *tree = new Tree(root);
->>>>>>> 6dd1b386a82f94df8ad05c03ab2846af02113850
         expandChildren(tree);
         pickChild(tree);
 
