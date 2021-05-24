@@ -12,9 +12,11 @@ class Eliminate {
 public:
     Node* root;
     vector<char> feats = { 'a', 'b', 'c', 'd' };
-    float P_value = 0.05;  //step 1) significance level (5%); used to find all features unneccsary ( > P_level)
+    vector<char> new_features;
+    //float P_value = 0.05;  //step 1) significance level (5%); used to find all features unneccsary ( > P_level)
     int eliminated = 0; //total number of features that were eliminated
-    //int accuracy_count = 0; //index that represents the accuracy chosen in the lit of randomly generated accuracies
+    float accuracy[10];
+    int accuracy_count = 0; //index that represents the accuracy chosen in the array of randomly generated accuracies
 
     Eliminate() {
         root = new Node();
@@ -22,6 +24,14 @@ public:
 
     void backwardEliminate() {
         Tree* tree = new Tree(root);
+
+        srand((unsigned int)time(NULL));
+
+        for (int i = 0; i < 10; i++) {
+            accuracy[i] = ((float)rand() / (float)(RAND_MAX)) * 100.0;
+            cout << accuracy[i] << endl;
+        }
+
         parentSet(tree);
         removeFeature(tree);
 
@@ -34,20 +44,29 @@ public:
 
     void removeFeature(Tree* tree) {
         Node* currNode = tree->currNode;
+
         for (int i = 0; i < 4 - currNode->curr_features.size(); i++) {
             if (currNode->children.at(i)->curr_features.at(0) == 'b') {
+
+                //Node* accuracyNode = new Node(currNode);
+
+                //cout << "\nAccuracy of new set: " << accuracyNode->accuracy << "%";
+                //cout << "\n\n";
+
+                for (int i = 0; i < 4 - currNode->curr_features.size(); i++) {
+                    //generate a random accuracy (or percentage) within each node
+                    cout << "Accuracy for removing feature {" << new_features.at(i) << "} : " << accuracy[accuracy_count] << "%";
+                    cout << "\n";
+
+                    accuracy_count++;
+                }
+
                 tree->currNode = currNode->children.at(i);
                 cout << "feature(s) removed: ";
                 eliminated++;
                 for (int j = 0; j < tree->currNode->curr_features.size(); j++)
                     cout << tree->currNode->curr_features.at(j) << " ";
-
-                Node* accuracyNode = new Node(currNode);
-
-                cout << "\nAccuracy of new set: " << accuracyNode->accuracy << "%";
                 cout << "\n\n";
-
-                //accuracy_count++;
 
                 return;
             }
@@ -56,7 +75,7 @@ public:
 
     void parentSet(Tree* tree) {
         int feature_size;
-        vector<char> new_features;
+        
         Node* currNode = tree->currNode;
         cout << "size: " << 4 - tree->currNode->curr_features.size() << endl;
         feature_size = 4 - tree->currNode->curr_features.size();
@@ -69,7 +88,7 @@ public:
                 Node* newNode = new Node(tree->currNode);
                 newNode->addFeature(new_features.at(i));
                 cout << new_features.at(i) << " ";
-                currNode->children.push_back(newNode);
+                currNode->children.push_back(newNode);   
             }
             cout << "\n";
 
