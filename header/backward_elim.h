@@ -13,75 +13,96 @@ public:
     Node* root;
     vector<char> feats = { 'a', 'b', 'c', 'd' };
     vector<char> new_features;
-    //float P_value = 0.05;  //step 1) significance level (5%); used to find all features unneccsary ( > P_level)
+    int features = 4;       //number of features used in the tree
+    int high_node = 0;    //locate the node with the highest accuracy in the given group of children
+    float max_acc = 0.0;  //highest overall accuracy
+    
     int eliminated = 0; //total number of features that were eliminated
-    float accuracy[10];
-    int accuracy_count = 0; //index that represents the accuracy chosen in the array of randomly generated accuracies
-
-    Eliminate() {
+    float accuracy[10]; //array of all accuracies found during the greedy search
+    float compare_acc[4]; //variable used to compare accuracy of each child and find/hold the highest in each group
+    
+    int acc_cnt2 = 0;                   //
+    int compare_cnt2 = 0;               // counter variables
+    int cnt1 = 0, cnt2 = 0, cnt3 = 0;   //
+        
+    
+    Eliminate(int feats) {
         root = new Node();
+        features = feats;
+        features = 4;
     }
 
-    void backwardEliminate(int nfeat) {
+    void backwardEliminate() {
         Tree* tree = new Tree(root);
 
         srand((unsigned int)time(NULL));
 
-        //int nfeat = 4;  //number of features to be entered
-        int nacc = 0;   //number of total greedy accuracies
+        int nfeat = 4;  //number of features to be entered
+        int nAcc = 0;   //number of total greedy accuracies
         int cnt = nfeat;
         
         //loop works as follows: cnt + (cnt-1) + (cnt-1-1) + (cnt-1-1-1)
         //4 + 3 + 2 + 1 = 10 random accuracies
         for (int i = 0; i < nfeat; i++) {
-            nacc += cnt;
+            nAcc += cnt;
             cnt--;
         }
         
-        for (int i = 0; i < nacc; i++) {
+        for (int i = 0; i < nAcc; i++) {
             accuracy[i] = ((float)rand() / (float)(RAND_MAX)) * 100.0;
-            cout << accuracy[i] << endl;
         }
 
         parentSet(tree);
         removeFeature(tree);
 
-        for (int i = 0; i < nfeat-1; i++) {
+        
+        for (int i = 0; i < features-1; i++) {
             parentSet(tree);
             removeFeature(tree);
         }
+        
+        //find maximum overall accuracy and total features eliminated
+        for (int i = 0; i < features; i++) {
+            if (i == 0) {
+                max_acc = compare_acc[0];
+                eliminated = 1;
+            }
+            else if(compare_acc[i-1] < compare_acc[i]) {
+                max_acc = compare_acc[i];
+                eliminated = i + 1;
+            }
+        }
+        
+        cout << "\n\nFinished search!!! The best feature subset {";
+        for (int j = 0; j < eliminated; j++)
+            cout << tree->currNode->curr_features.at(j) << " ";
+        cout << "} had an accuracy of " << max_acc << "%" << endl;
+        
         return;
     }
 
     void removeFeature(Tree* tree) {
         Node* currNode = tree->currNode;
-
+        
+        //generate a random accuracy (or percentage) within each node
         for (int i = 0; i < 4 - currNode->curr_features.size(); i++) {
-            if (currNode->children.at(i)->curr_features.at(0) == 'b') {
-
-                //Node* accuracyNode = new Node(currNode);
-
-                //cout << "\nAccuracy of new set: " << accuracyNode->accuracy << "%";
-                //cout << "\n\n";
-
-                for (int i = 0; i < 4 - currNode->curr_features.size(); i++) {
-                    //generate a random accuracy (or percentage) within each node
-                    cout << "Accuracy for removing feature {" << new_features.at(i) << "} : " << accuracy[accuracy_count] << "%";
-                    cout << "\n";
-
-                    accuracy_count++;
-                }
-
-                tree->currNode = currNode->children.at(i);
-                cout << "feature(s) removed: ";
-                eliminated++;
-                for (int j = 0; j < tree->currNode->curr_features.size(); j++)
-                    cout << tree->currNode->curr_features.at(j) << " ";
-                cout << "\n\n";
-
-                return;
-            }
+            cout << "Accuracy for removing feature {" << new_features.at(i) << "} : " << accuracy[acc_cnt2] << "%";
+            cout << "\n";
+                    
+            acc_cnt2++;
         }
+                        
+        tree->currNode = currNode->children.at(high_node);
+        cout << "feature(s) removed: ";
+        for (int j = 0; j < tree->currNode->curr_features.size(); j++)
+            cout << tree->currNode->curr_features.at(j) << " ";
+        cout << "-> resulting in an accuracy of " << compare_acc[compare_cnt2] << "%";
+        cout << "\n\n";
+                
+        compare_cnt2++;
+        high_node = 0;
+                
+        return;
     }
 
     void parentSet(Tree* tree) {
@@ -102,16 +123,21 @@ public:
                 currNode->children.push_back(newNode);   
             }
             cout << "\n";
-
-            /*cout << "child node chosen: ";
-            for (int i = 0; i < feature_size-1; i++) {
-                Node* newNode = new Node(tree->currNode);
-                newNode->addFeature(new_features.at(i));
-                cout << new_features.at(i) << " ";
-                currNode->children.push_back(newNode);
-            }
-            cout << "\n";*/
         }
+        
+        //acquire all values/accuracies for compare_acc
+        for (int i = cnt1; i < (cnt1 + 4 - currNode->curr_features.size()); i++) {  
+            if (i == 0)
+                compare_acc[cnt3] = accuracy[0];    //this will only implement once
+            if (compare_acc[cnt3] < accuracy[i]) {
+                compare_acc[cnt3] = accuracy[i];    //assignment only the highest accuracy among each set of children     
+                high_node = i - cnt1;
+            }
+                
+            cnt2++;
+        }
+        cnt1 = cnt2;
+        cnt3++;
     }
 
     vector<char> validFeatures(Node* currNode, int feature_size) {
