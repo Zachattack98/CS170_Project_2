@@ -46,7 +46,7 @@ class Node {
         }
 
         float setAccuracy() {
-            return rand()%10 + 1;
+            return rand()%100 + 1;
         }
 };
 

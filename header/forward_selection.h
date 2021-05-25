@@ -12,22 +12,27 @@ class Select {
 public:
     Node* root;
     vector<char> feats = {'a', 'b', 'c', 'd'};
+    int features = 4;
     float P_value = 0.05;  //step 1) significance level (5%); used to find all features unneccsary ( > P_level)
     int selected; //total number of features that were selected
 
-    Select() {
+    Select(int feats) {
         root = new Node();
+        features=feats;
+        features = 4;
     }
 
-    void forwardSelect(){
+    void forwardSelect() {
         Tree *tree = new Tree(root);
-        expandChildren(tree);
-        if (!pickChild(tree))
-            return;
-        for (int i = 0; i < 3; i++) {
+//        expandChildren(tree);
+//        if (!pickChild(tree))
+//            return;
+        for (int i = 0; i < 4; i++) {
             expandChildren(tree);
-            if (!pickChild(tree))
+            if (!pickChild(tree)) {
+                cout << "Finished search! The best feature subset had an accuracy of " << tree->currNode->accuracy << endl;
                 return;
+            }
         }
     }
 
@@ -40,12 +45,18 @@ public:
 
         if (feature_size != 0) {
             new_features = validFeatures(currNode, feature_size);
-            cout << "features left: ";
+//            cout << "features left: ";
             for (int i = 0; i < feature_size; i++) {
                 Node* newNode = new Node(tree->currNode);
                 newNode->addFeature(new_features.at(i));
-                cout << new_features.at(i) << " ";
+//                cout << new_features.at(i) << " ";
                 currNode->children.push_back(newNode);
+            }
+            for (int i = 0; i < currNode->children.size(); i++) {
+                cout << "Using feature(s) {";
+                for (int j = 0; j < currNode->children.at(i)->curr_features.size(); j++)
+                    cout << currNode->children.at(i)->curr_features.at(j) << ", ";
+                cout << "} accuracy is " << currNode->children.at(i)->accuracy << endl;
             }
             cout << "\n";
         }
@@ -61,13 +72,14 @@ public:
                 child_chosen = true;
             }
         }
-        cout << "Node chosen: ";
+        cout << "Feature set {";
         tree->currNode = maxNode;
         for (int j = 0; j < tree->currNode->curr_features.size(); j++)
-            cout << tree->currNode->curr_features.at(j) << " ";
-        cout << ", Accuracy: " << tree->currNode->accuracy << endl;
+            cout << tree->currNode->curr_features.at(j) << ", ";
+        cout << "} was the best, accuracy is " << tree->currNode->accuracy << endl;
         return child_chosen;
     }
+
 
 
 

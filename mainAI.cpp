@@ -14,18 +14,17 @@ int main() {
         int Algorithm;
         int nfeatures;
 
-//        cout << endl << "Enter the number of features used in this algorithm: " << endl;
-//        cin >> nfeatures;
-//
-//        cout << endl << "Now select the type of algorithm from the list below"
-//             << "------------------------------------------------------"
-//             << "1. Forward Selection\n2. Backward Elimination\n3. Our Special Algorithm (not ready yet)"
-//             << endl;
-//        cin >> Algorithm;
+        cout << endl << "Enter the number of features used in this algorithm: " << endl;
+        cin >> nfeatures;
+
+        cout << endl << "Now select the type of algorithm from the list below"
+             << "\n1. Forward Selection\n2. Backward Elimination\n3. Our Special Algorithm (not ready yet)"
+             << endl;
+        cin >> Algorithm;
 
         //Problem problem;
         //problem.algorithmchoice = Algorithm;
-        Select* forward_selection = new Select();
+        Select* forward_selection = new Select(4);
         forward_selection->forwardSelect();
 
 
