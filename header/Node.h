@@ -4,21 +4,23 @@
 //#include <bits/stdc++.h>
 #include <vector>
 #include <ctime>
-#include <cstdlib>
+#include <time.h>
+
 using namespace std;
 
 class Node {
-public:
-    Node* parent;
-    vector<Node*> children;
-    vector<char> curr_features;
-    float accuracy;
+    public:
+        Node* parent;
+        vector<Node*> children;
+        vector<char> curr_features;
+        float accuracy;
 
-    Node() {
-        parent = nullptr;
-    }
+        Node() {
+             parent = nullptr;
+             accuracy = setAccuracy();
+        }
 
-    Node(Node* node) {
+        Node(Node* node) {
             parent = node;
             accuracy = setAccuracy();
 //            srand((unsigned int)time(NULL));
@@ -44,7 +46,7 @@ public:
         }
 
         float setAccuracy() {
-            return rand()%10 + 1;
+            return rand()%100 + 1;
         }
 };
 
