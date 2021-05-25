@@ -7,7 +7,7 @@
 
 using namespace std;
 
-//Greedy Forward Selection
+//Greedy Backward Elimination
 class Eliminate {
 public:
     Node* root;
@@ -141,8 +141,4 @@ public:
     }
 };
 
-<<<<<<< HEAD
 #endif
-=======
-#endif
->>>>>>> 6dd1b386a82f94df8ad05c03ab2846af02113850
