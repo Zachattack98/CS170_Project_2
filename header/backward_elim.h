@@ -22,12 +22,23 @@ public:
         root = new Node();
     }
 
-    void backwardEliminate() {
+    void backwardEliminate(int nfeat) {
         Tree* tree = new Tree(root);
 
         srand((unsigned int)time(NULL));
 
-        for (int i = 0; i < 10; i++) {
+        //int nfeat = 4;  //number of features to be entered
+        int nacc = 0;   //number of total greedy accuracies
+        int cnt = nfeat;
+        
+        //loop works as follows: cnt + (cnt-1) + (cnt-1-1) + (cnt-1-1-1)
+        //4 + 3 + 2 + 1 = 10 random accuracies
+        for (int i = 0; i < nfeat; i++) {
+            nacc += cnt;
+            cnt--;
+        }
+        
+        for (int i = 0; i < nacc; i++) {
             accuracy[i] = ((float)rand() / (float)(RAND_MAX)) * 100.0;
             cout << accuracy[i] << endl;
         }
@@ -35,7 +46,7 @@ public:
         parentSet(tree);
         removeFeature(tree);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < nfeat-1; i++) {
             parentSet(tree);
             removeFeature(tree);
         }

@@ -15,8 +15,8 @@ int main() {
         int Algorithm;
         int nfeatures;
 
-        //        cout << endl << "Enter the number of features used in this algorithm: " << endl;
-        //        cin >> nfeatures;
+        cout << endl << "Enter the number of features used in this algorithm: " << endl;
+        cin >> nfeatures;
         //
         //        cout << endl << "Now select the type of algorithm from the list below"
         //             << "------------------------------------------------------"
