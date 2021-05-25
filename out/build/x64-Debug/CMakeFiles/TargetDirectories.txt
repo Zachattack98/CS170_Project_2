@@ -1,3 +1,0 @@
-C:/Users/zachary/Downloads/CS170_Project_2/out/build/x64-Debug/CMakeFiles/CS170_Project_2.dir
-C:/Users/zachary/Downloads/CS170_Project_2/out/build/x64-Debug/CMakeFiles/edit_cache.dir
-C:/Users/zachary/Downloads/CS170_Project_2/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
