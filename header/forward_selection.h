@@ -26,7 +26,7 @@ public:
         for (int i = 0; i < 4; i++) {
             expandChildren(tree);
             if (!pickChild(tree)) {
-                cout << "Finished search! The best feature subset had an accuracy of " << tree->currNode->accuracy << endl;
+                cout << "Finished search!" << endl;
                 return;
             }
         }
@@ -47,10 +47,9 @@ public:
                 currNode->children.push_back(newNode);
             }
             for (int i = 0; i < currNode->children.size(); i++) {
-                cout << "Using feature(s) {";
-                for (int j = 0; j < currNode->children.at(i)->curr_features.size(); j++)
-                    cout << currNode->children.at(i)->curr_features.at(j) << ", ";
-                cout << "} accuracy is " << currNode->children.at(i)->accuracy << endl;
+                cout << "Using feature(s) ";
+                currNode->children.at(i)->printFeats();
+                cout << " accuracy is " << currNode->children.at(i)->accuracy << endl;
             }
             cout << "\n";
         }
@@ -66,11 +65,11 @@ public:
                 child_chosen = true;
             }
         }
-        cout << "Feature set {";
+
         tree->currNode = maxNode;
-        for (int j = 0; j < tree->currNode->curr_features.size(); j++)
-            cout << tree->currNode->curr_features.at(j) << ", ";
-        cout << "} was the best, accuracy is " << tree->currNode->accuracy << endl;
+        cout << "Feature set ";
+        tree->currNode->printFeats();
+        cout << " was the best, accuracy is " << tree->currNode->accuracy << endl;
         return child_chosen;
     }
 
@@ -87,7 +86,7 @@ public:
                 new_feature.push_back(feats.at(i));
         }
 
-        else if (feature_size < 4){
+        else if (feature_size < 4) {
             for (int i = 0; i < feature_size; i++)
                 invalid_feats.push_back(currNode->curr_features.at(i));
             for (int i = 0; i < 4; i++) {

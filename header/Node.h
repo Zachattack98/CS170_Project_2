@@ -23,12 +23,6 @@ class Node {
         Node(Node* node) {
             parent = node;
             accuracy = setAccuracy();
-//            srand((unsigned int)time(NULL));
-//
-//            for (int i = 0; i < parent->curr_features.size(); i++) {
-//                    //generate a random accuracy (or percentage) within each node
-//                    accuracy[i] = ((float)rand()/(float)(RAND_MAX)) * 100.0;
-//            }
         }
 
         void addFeature(char c) {
@@ -47,6 +41,20 @@ class Node {
 
         float setAccuracy() {
             return rand()%100 + 1;
+        }
+
+        void printFeats() {
+            if (curr_features.empty()) {
+                cout << "{ }";
+                return;
+            }
+            cout << "{";
+            for (int i = 0; i < curr_features.size(); i++) {
+                if (i < curr_features.size() - 1)
+                    cout << curr_features.at(i) << ", ";
+                else
+                    cout << curr_features.at(i) << "}";
+            }
         }
 };
 
