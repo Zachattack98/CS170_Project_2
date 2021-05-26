@@ -24,7 +24,7 @@ int main() {
 
         //Problem problem;
         //problem.algorithmchoice = Algorithm;
-        Select* forward_selection = new Select(4);
+        Select* forward_selection = new Select(nfeatures);
         forward_selection->forwardSelect();
 
 
