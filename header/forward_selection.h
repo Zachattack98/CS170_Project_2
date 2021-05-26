@@ -1,5 +1,5 @@
-#ifndef FORWARD_SELECTION_H
-#define FORWARD_SELECTION_H
+#ifndef CS170_PROJECT_2_FORWARD_SELECTION_H
+#define CS170_PROJECT_2_FORWARD_SELECTION_H
 
 //#include <bits/stdc++.h>
 #include "Node.h"
@@ -11,95 +11,98 @@ using namespace std;
 class Select {
 public:
     Node* root;
-    vector<char> feats = { 'a', 'b', 'c', 'd' };
-
-    float P_value = 0.05;  //step 1) significance level (5%); used to find all features unneccsary ( > P_level)
+    vector<char> feats = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm'};
+    int num_features;
     int selected; //total number of features that were selected
 
-    Select() {
+    Select(int feats) {
         root = new Node();
+        num_features = feats;
     }
-    
-    void forwardSelect(){
-        Tree *tree = new Tree(root);
-        expandChildren(tree);
-        pickChild(tree);
 
-        for (int i = 0; i < 3; i++) {
-            expandChildren(tree);
+    void forwardSelect() {
+        Tree *tree = new Tree(root);
+        if (num_features == 0) {
             pickChild(tree);
+            cout << "Finished search!" << endl;
+            return;
         }
-        return;
+        for (int i = 0; i < num_features; i++) {
+            expandChildren(tree);
+            if (!pickChild(tree)) {
+                cout << "Finished search!" << endl;
+                return;
+            }
+        }
     }
 
     void expandChildren(Tree* tree) {
         int feature_size;
         vector<char> new_features;
         Node* currNode = tree->currNode;
-        cout << "size: " << 4 - tree->currNode->curr_features.size() << endl;
-        feature_size = 4 - tree->currNode->curr_features.size();
+        feature_size = tree->currNode->curr_features.size();
 
 
-        if (feature_size != 0) {
+        if (feature_size < num_features) {
             new_features = validFeatures(currNode, feature_size);
-            cout << "features left: ";
-            for (int i = 0; i < feature_size; i++) {
+            for (int i = 0; i < num_features - feature_size; i++) {
                 Node* newNode = new Node(tree->currNode);
                 newNode->addFeature(new_features.at(i));
-                cout << new_features.at(i) << " ";
                 currNode->children.push_back(newNode);
+            }
+            for (int i = 0; i < currNode->children.size(); i++) {
+                cout << "Using feature(s) ";
+                currNode->children.at(i)->printFeats();
+                cout << " accuracy is " << currNode->children.at(i)->accuracy << endl;
             }
             cout << "\n";
         }
     }
 
-    void pickChild(Tree* tree) {
+    bool pickChild(Tree* tree) {
+        bool child_chosen = false;
         Node* currNode = tree->currNode;
-        for (int i = 0; i < 4 - currNode->curr_features.size(); i++) {
-            if (currNode->children.at(i)->curr_features.at(0) == 'c') {
-                tree->currNode = currNode->children.at(i);
-                cout << "child chosen: ";
-                for (int j = 0; j < tree->currNode->curr_features.size(); j++)
-                    cout << tree->currNode->curr_features.at(j) << " ";
-                cout << "\n\n";
-                return;
+        Node* maxNode = tree->currNode;
+        for (int i = 0; i < currNode->children.size(); i++) {
+            if (maxNode->accuracy < tree->currNode->children.at(i)->accuracy) {
+                maxNode = currNode->children.at(i);
+                child_chosen = true;
             }
         }
+
+        tree->currNode = maxNode;
+        cout << "Feature set ";
+        tree->currNode->printFeats();
+        cout << " was the best, accuracy is " << tree->currNode->accuracy << endl;
+        return child_chosen;
     }
+
+
+
 
     vector<char> validFeatures(Node* currNode, int feature_size) {
         vector<char> new_feature;
         vector<char> invalid_feats;
-        if (feature_size == 4) {
-            for (int i = 0; i < 4; i++)
+        bool invalid;
+
+        if (feature_size == 0) {
+            for (int i = 0; i < num_features; i++)
                 new_feature.push_back(feats.at(i));
         }
-        else if (feature_size == 3) {
-            invalid_feats.push_back(currNode->curr_features.at(0));
-            for (int i = 0; i < 4; i++) {
-                if (invalid_feats.at(0) != feats.at(i))
+
+        else if (feature_size < num_features) {
+            for (int i = 0; i < feature_size; i++)
+                invalid_feats.push_back(currNode->curr_features.at(i));
+            for (int i = 0; i < num_features; i++) {
+                invalid = false;
+                for (int j = 0; j < feature_size; j++) {
+                    if (invalid_feats.at(j) == feats.at(i))
+                        invalid = true;
+                }
+                if (!invalid)
                     new_feature.push_back(feats.at(i));
+
             }
-        }
-        else if (feature_size == 2) {
-            invalid_feats.push_back(currNode->curr_features.at(0));
-            invalid_feats.push_back(currNode->curr_features.at(1));
-            for (int i = 0; i < 4; i++) {
-                if (invalid_feats.at(0) != feats.at(i) && invalid_feats.at(1) != feats.at(i))
-                    new_feature.push_back(feats.at(i));
-            }
-        }
-        else if (feature_size == 1) {
-            invalid_feats.push_back(currNode->curr_features.at(0));
-            invalid_feats.push_back(currNode->curr_features.at(1));
-            invalid_feats.push_back(currNode->curr_features.at(2));
-            for (int i = 0; i < 4; i++) {
-                if (invalid_feats.at(0) != feats.at(i) && invalid_feats.at(1) != feats.at(i) && invalid_feats.at(2) != feats.at(i))
-                    new_feature.push_back(feats.at(i));
-            }
-        }
-        else {
-            cout << "feature size: " << feature_size << endl;
         }
         return new_feature;
     }
