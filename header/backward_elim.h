@@ -49,8 +49,6 @@ public:
         
         for (int i = 0; i < nAcc; i++) {
             accuracy[i] = ((float)rand() / (float)(RAND_MAX)) * 100.0;
-            
-            cout << accuracy[i] << endl;
         }
 
         parentSet(tree);
