@@ -1,0 +1,164 @@
+Welcome to Khuaja Shams's and Zachary Hill's Feature Selection Algorithm.
+
+Enter the number of features used in this algorithm: 
+8
+
+Now select the type of algorithm from the list below
+1. Forward Selection
+2. Backward Elimination
+3. Our Special Algorithm (not ready yet)
+1
+Using feature(s) {a} accuracy is 44
+Using feature(s) {b} accuracy is 63
+Using feature(s) {c} accuracy is 30
+Using feature(s) {d} accuracy is 1
+Using feature(s) {e} accuracy is 9
+Using feature(s) {f} accuracy is 53
+Using feature(s) {g} accuracy is 57
+Using feature(s) {h} accuracy is 57
+
+Feature set {b} was the best, accuracy is 63
+Using feature(s) {b, a} accuracy is 20
+Using feature(s) {b, c} accuracy is 12
+Using feature(s) {b, d} accuracy is 52
+Using feature(s) {b, e} accuracy is 44
+Using feature(s) {b, f} accuracy is 6
+Using feature(s) {b, g} accuracy is 9
+Using feature(s) {b, h} accuracy is 94
+
+Feature set {b, h} was the best, accuracy is 94
+Using feature(s) {b, h, a} accuracy is 31
+Using feature(s) {b, h, c} accuracy is 67
+Using feature(s) {b, h, d} accuracy is 70
+Using feature(s) {b, h, e} accuracy is 33
+Using feature(s) {b, h, f} accuracy is 18
+Using feature(s) {b, h, g} accuracy is 48
+
+Feature set {b, h} was the best, accuracy is 94
+Finished search!
+Proceed? (Y/N):
+Y
+
+Enter the number of features used in this algorithm: 
+10
+
+Now select the type of algorithm from the list below
+1. Forward Selection
+2. Backward Elimination
+3. Our Special Algorithm (not ready yet)
+2
+size: 10
+current parent node: a b c d e f g h i j 
+Accuracy for removing feature {a} : 71.9186%
+Accuracy for removing feature {b} : 94.6823%
+Accuracy for removing feature {c} : 36.3583%
+Accuracy for removing feature {d} : 91.7675%
+Accuracy for removing feature {e} : 78.5264%
+Accuracy for removing feature {f} : 89.8108%
+Accuracy for removing feature {g} : 82.2483%
+Accuracy for removing feature {h} : 72.8854%
+Accuracy for removing feature {i} : 71.031%
+Accuracy for removing feature {j} : 99.6861%
+feature(s) removed: j -> resulting in an accuracy of 99.6861%
+
+size: 9
+current parent node: a b c d e f g h i 
+Accuracy for removing feature {a} : 99.7544%
+Accuracy for removing feature {b} : 61.5525%
+Accuracy for removing feature {c} : 77.2682%
+Accuracy for removing feature {d} : 56.6506%
+Accuracy for removing feature {e} : 85.0685%
+Accuracy for removing feature {f} : 67.4785%
+Accuracy for removing feature {g} : 24.2977%
+Accuracy for removing feature {h} : 16.2513%
+Accuracy for removing feature {i} : 16.7645%
+feature(s) removed: j a -> resulting in an accuracy of 99.7544%
+
+size: 8
+current parent node: b c d e f g h i 
+Accuracy for removing feature {b} : 86.4461%
+Accuracy for removing feature {c} : 26.1748%
+Accuracy for removing feature {d} : 66.3781%
+Accuracy for removing feature {e} : 97.3523%
+Accuracy for removing feature {f} : 35.0663%
+Accuracy for removing feature {g} : 55.0634%
+Accuracy for removing feature {h} : 91.0637%
+Accuracy for removing feature {i} : 35.2739%
+feature(s) removed: j a e -> resulting in an accuracy of 97.3523%
+
+size: 7
+current parent node: b c d f g h i 
+Accuracy for removing feature {b} : 1.83949%
+Accuracy for removing feature {c} : 92.8958%
+Accuracy for removing feature {d} : 93.483%
+Accuracy for removing feature {f} : 16.3951%
+Accuracy for removing feature {g} : 57.5007%
+Accuracy for removing feature {h} : 97.5554%
+Accuracy for removing feature {i} : 50.8041%
+feature(s) removed: j a e h -> resulting in an accuracy of 97.5554%
+
+size: 6
+current parent node: b c d f g i 
+Accuracy for removing feature {b} : 58.5577%
+Accuracy for removing feature {c} : 78.4763%
+Accuracy for removing feature {d} : 36.4549%
+Accuracy for removing feature {f} : 91.5046%
+Accuracy for removing feature {g} : 63.6626%
+Accuracy for removing feature {i} : 60.4981%
+feature(s) removed: j a e h f -> resulting in an accuracy of 91.5046%
+
+size: 5
+current parent node: b c d g i 
+Accuracy for removing feature {b} : 94.6497%
+Accuracy for removing feature {c} : 87.9597%
+Accuracy for removing feature {d} : 85.5508%
+Accuracy for removing feature {g} : 87.2796%
+Accuracy for removing feature {i} : 71.5345%
+feature(s) removed: j a e h f b -> resulting in an accuracy of 94.6497%
+
+size: 4
+current parent node: c d g i 
+Accuracy for removing feature {c} : 53.5315%
+Accuracy for removing feature {d} : 96.7385%
+Accuracy for removing feature {g} : 7.14962%
+Accuracy for removing feature {i} : 85.9017%
+feature(s) removed: j a e h f b d -> resulting in an accuracy of 96.7385%
+
+size: 3
+current parent node: c g i 
+Accuracy for removing feature {c} : 42.4806%
+Accuracy for removing feature {g} : 11.0858%
+Accuracy for removing feature {i} : 18.0577%
+feature(s) removed: j a e h f b d c -> resulting in an accuracy of 42.4806%
+
+size: 2
+current parent node: g i 
+Accuracy for removing feature {g} : 29.8146%
+Accuracy for removing feature {i} : 62.7996%
+feature(s) removed: j a e h f b d c i -> resulting in an accuracy of 62.7996%
+
+size: 1
+current parent node: g 
+Accuracy for removing feature {g} : 24.1798%
+feature(s) removed: j a e h f b d c i g -> resulting in an accuracy of 24.1798%
+
+
+
+Finished search!!! The best feature subset { j a } had an accuracy of 99.7544%
+Total features eliminated: 2
+
+Proceed? (Y/N):
+Y
+
+Enter the number of features used in this algorithm: 
+13
+
+Now select the type of algorithm from the list below
+1. Forward Selection
+2. Backward Elimination
+3. Our Special Algorithm (not ready yet)
+3
+Proceed? (Y/N):
+N
+
+RUN SUCCESSFUL (total time: 43s)
