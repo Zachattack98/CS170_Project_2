@@ -11,34 +11,31 @@ int main() {
 
     cout << "Welcome to Khuaja Shams's and Zachary Hill's Feature Selection Algorithm." << endl;
 
-    while (1) {
+    while(1) {
         int Algorithm;
         int nfeatures;
 
-        //        cout << endl << "Enter the number of features used in this algorithm: " << endl;
-        //        cin >> nfeatures;
-        //
-        //        cout << endl << "Now select the type of algorithm from the list below"
-        //             << "------------------------------------------------------"
-        //             << "1. Forward Selection\n2. Backward Elimination\n3. Our Special Algorithm (not ready yet)"
-        //             << endl;
-        //        cin >> Algorithm;
+        cout << endl << "Enter the number of features used in this algorithm: " << endl;
+        cin >> nfeatures;
 
-                //Problem problem;
-                //problem.algorithmchoice = Algorithm;
-        Select* forward_selection = new Select();
+        cout << endl << "Now select the type of algorithm from the list below"
+             << "\n1. Forward Selection\n2. Backward Elimination\n3. Our Special Algorithm (not ready yet)"
+             << endl;
+        cin >> Algorithm;
 
-        cout << "----------Forward Selection---------" << endl;
-        forward_selection->forwardSelect();
-
-
-        Eliminate* backward_elimination = new Eliminate();
-
-        cout << "----------Backward Elimination---------" << endl;
-        backward_elimination->backwardEliminate();
-
-        cout << "Total features eliminated: " << backward_elimination->eliminated << endl << endl;
-
+        //Problem problem;
+        //problem.algorithmchoice = Algorithm;
+        if(Algorithm == 1) {
+            Select* forward_selection = new Select(nfeatures);
+            forward_selection->forwardSelect();
+        }
+        else if(Algorithm == 2) {
+            Eliminate* backward_elimination = new Eliminate(nfeatures);
+            backward_elimination->backwardEliminate();
+        
+            cout << "Total features eliminated: " << backward_elimination->eliminated << endl << endl;
+        }
+        
         /*if (problem.GraphSearch(root)) {
             cout << "Solution Found!" << endl;
             cout << problem.expandN << " nodes expanded." << endl;
