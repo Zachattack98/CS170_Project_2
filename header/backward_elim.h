@@ -37,6 +37,7 @@ public:
         
         int nAcc = 0;   //number of total greedy accuracies
         int cnt = num_features;
+        vector<char> final_features; //array containing all features in best subset
         
         //loop works as follows: cnt + (cnt-1) + (cnt-1-1) + (cnt-1-1-1)
         //if num_features = 4 -> 4 + 3 + 2 + 1 = 10 random accuracies
@@ -80,12 +81,29 @@ public:
             }
             
             if (max_acc < default_acc)
-                max_acc = default_acc; 
+                max_acc = default_acc;  
+        }
+        
+        //find all features in best subset
+        int valid;
+        for (int i = 0; i < num_features; i++) {
+            valid = 0;
+            
+            for (int j = 0; j < eliminated; j++) {
+                if(tree->currNode->curr_features.at(j) == feats[i]) {
+                    break;
+                }
+                if(j == eliminated - 1) //checked through all eliminated features
+                    valid = 1;
+            }
+            
+            if(valid)
+                final_features.push_back(feats.at(i));
         }
         
         cout << "\n\nFinished search!!! The best feature subset { ";
-        for (int j = 0; j < eliminated; j++)
-            cout << tree->currNode->curr_features.at(j) << " ";
+        for (int i = 0; i < num_features - eliminated; i++)
+            cout << final_features[i] << " ";
         cout << "} had an accuracy of " << max_acc << "%" << endl;
         
         return;
