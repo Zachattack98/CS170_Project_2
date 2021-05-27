@@ -13,12 +13,13 @@ public:
     Node* root;
     vector<char> feats = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm'};
     vector<char> new_features;
+    float default_acc = 0.0;    //accuracy for the root
     int num_features;       //number of features used in the tree
     int high_node = 0;    //locate the node with the highest accuracy in the given group of children
     float max_acc = 0.0;  //highest overall accuracy
     
     int eliminated = 0; //total number of features that were eliminated
-    float accuracy[91]; //array of all accuracies found during the greedy search
+    float accuracy[91]; //array of all accuracies found during the greedy search; not counting root
     float compare_acc[13]; //variable used to compare accuracy of each child and find/hold the highest in each group
     
     int acc_cnt2 = 0;                   //
@@ -32,25 +33,32 @@ public:
     }
 
     void backwardEliminate() {
-        Tree* tree = new Tree(root);
+        Tree* tree = new Tree(root); 
         
-        srand((unsigned int)time(NULL));
-
         int nAcc = 0;   //number of total greedy accuracies
-        int temp_f = num_features;
+        int cnt = num_features;
         
         //loop works as follows: cnt + (cnt-1) + (cnt-1-1) + (cnt-1-1-1)
         //if num_features = 4 -> 4 + 3 + 2 + 1 = 10 random accuracies
         for (int i = 0; i < num_features; i++) {
-            nAcc += temp_f;
-            temp_f--;
+            nAcc += cnt;
+            cnt--;
         }
         
-        
+        //accuracies for all nodes that will be searched during the greedy search
+        srand((unsigned int)time(NULL));
+        default_acc = ((float)rand() / (float)(RAND_MAX)) * 100.0;
+
         for (int i = 0; i < nAcc; i++) {
             accuracy[i] = ((float)rand() / (float)(RAND_MAX)) * 100.0;
         }
-
+            
+        cout << "\nInitial accuracy for root { "; 
+        for(int i=0; i < 13; i++)
+            cout << feats.at(i) << " ";
+        cout << "} : " << default_acc << "%";
+        cout << "\n\n";
+        
         parentSet(tree);
         removeFeature(tree);
 
@@ -70,6 +78,9 @@ public:
                 max_acc = compare_acc[i];
                 eliminated = i + 1;
             }
+            
+            if (max_acc < default_acc)
+                max_acc = default_acc; 
         }
         
         cout << "\n\nFinished search!!! The best feature subset { ";
@@ -82,8 +93,8 @@ public:
 
     void removeFeature(Tree* tree) {
         Node* currNode = tree->currNode;
-        
-        //generate a random accuracy (or percentage) within each node
+
+        //display random accuracy (or percentage) within each node of given children
         for (int i = 0; i < num_features - currNode->curr_features.size(); i++) {
             cout << "Accuracy for removing feature {" << new_features.at(i) << "} : " << accuracy[acc_cnt2] << "%";
             cout << "\n";
