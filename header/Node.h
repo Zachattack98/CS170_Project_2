@@ -13,16 +13,18 @@ class Node {
         Node* parent;
         vector<Node*> children;
         vector<char> curr_features;
-        float accuracy;
+        float accuracy, be_accuracy;
 
         Node() {
              parent = nullptr;
-             accuracy = setAccuracy();
+             accuracy = set_FS_Accuracy();
+             //be_accuracy = set_BE_Accuracy();
         }
 
         Node(Node* node) {
             parent = node;
-            accuracy = setAccuracy();
+            accuracy = set_FS_Accuracy();
+            //be_accuracy = set_BE_Accuracy();
         }
 
         void addFeature(char c) {
@@ -39,10 +41,17 @@ class Node {
             }
         }
 
-        float setAccuracy() {
+        //accuracies in first selection
+        float set_FS_Accuracy() {
             return rand()%100 + 1;
         }
 
+        //accuracies in backward elimination
+        /*float set_BE_Accuracy() {
+            srand((unsigned int)time(NULL));
+            return ((float)rand() / (float)(RAND_MAX)) * 100.0;
+        }*/
+        
         void printFeats() {
             if (curr_features.empty()) {
                 cout << "{ }";
