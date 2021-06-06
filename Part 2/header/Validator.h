@@ -3,8 +3,9 @@
 
 //#include <bits/stdc++.h>
 #include <vector>
-//#include <ctime>
-//#include <time.h>
+#include <fstream>
+#include <sstream>
+#include <string>
 #include "Classifier.h"
 
 using namespace std;
@@ -12,11 +13,17 @@ using namespace std;
 class Validator {
     public:
         vector<int> feat_subset; //subset containing all features currently working with
-        float accuracy_scr; //total accuracy score using feature from feat_subset
+        float accuracy_scr = 0.0; //total accuracy score using feature from feat_subset
+        int num_lines = 0;  //number of rows with the given text file
+        string line;
+        int label;
 
-
-    int leave_one_out_validation (vector<int> subset) {
+    int leave_one_out_validation (vector<int> subset, string file_choice) {
         int correct_predict_cnt;    //keep track of all correct predictions
+        ifstream myfile(file_choice);   //open file; read from the appropriate file
+        
+        //while(getline(myfile, line))    //while there is still lines to read 
+            //++num_lines;
 
         //transfer all inputted features into feat_subset
         for(int i = 0; i < subset.size(); i++)
@@ -28,8 +35,14 @@ class Validator {
         //read all ground_truth_labels
         vector<int> ground_truth_label;
 
-        correct_predict_cnt = 0;
+        while(getline(myfile, line)) {
+            stringstream(line) >> label;
+            ground_truth_label.push_back(label);
+        }
 
+        myfile.close();
+        
+        correct_predict_cnt = 0;
         for(int i = 0; i < instance_ID.size(); i++) {
             //test_instance_ID = instance_ID;
             //train_instances = all other instances excluding test_instance
