@@ -10,7 +10,7 @@ class ValidTimer {
     private:
 		bool running;
 		unsigned long  beg, end;
-        
+
 	public:
 		
     ValidTimer() {
