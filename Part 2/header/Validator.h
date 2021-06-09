@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include "ValidTimer.h"
 #include "Classifier.h"
 
 using namespace std;
@@ -39,12 +40,16 @@ class Validator {
             stringstream(line) >> label;
             ground_truth_label.push_back(label);
         }
-
         myfile.close();
         
+        ValidTimer t;
         correct_predict_cnt = 0;
+
+        //timer start
+		printf("Starting validation...");
+		t.start();
         for(int i = 0; i < instance_ID.size(); i++) {
-            //test_instance_ID = instance_ID;
+            vector<int> test_instance_ID = instance_ID;
             //train_instances = all other instances excluding test_instance
             //call Classifier.Test() and pass this test_instance_ID to it. It returns predicted_label
 
@@ -53,9 +58,14 @@ class Validator {
             }*/
         }
 
-        //accuracy_scr = correct_predict_cnt / total number of instances;
+        //timer stop
+        t.stop();
+		printf("Time taken for validation = %0d ms", t.getTime());
 
-		return accuracy_scr;
+		//accuracy_scr  = correct_predict_cnt / total number of instances
+		printf("Using features {%0d}, the accuracy is {%0f}", feat_subset, accuracy_scr);
+		
+        return accuracy_scr;
     }
 
 };
