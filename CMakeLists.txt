@@ -3,9 +3,8 @@ project(CS170_Project_2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(header)
+include_directories(Part2, Part2/header)
 
 add_executable(CS170_Project_2
-        "header/forward_selection.h"
-        mainAI.cpp )
+        Part2/mainCode.cpp )
        
