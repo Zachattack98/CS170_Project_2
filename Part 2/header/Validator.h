@@ -30,31 +30,33 @@ class Validator {
         for(int i = 0; i < subset.size(); i++)
             feat_subset[i] = subset[i];
 
-        //read all instance_IDs
-        vector<int> instance_ID;
-
-        while(getline(myfile, line)) {
-            stringstream(line) >> label;
-            instance_ID.push_back(label);
-        }
-
-        //read all ground_truth_labels
+        //Read all instance IDs
+        vector<vector<float>> instance_ID;
+        //Read all ground truth labels
         vector<vector<int>> ground_truth_label;
         
         fstream myfile;
-        myfile.open("large.txt");   //open file; read from the appropriate file
-        
+        myfile.open(file_choice);   //open file; read from the appropriate file
+          
         string line;
         while(getline(myfile,line)) {
+            instance_ID.push_back(vector<float>());
             ground_truth_label.push_back(vector<int>());
             
             //Break down the row to get only the values in the first column
-            stringstream split(line);
-            int data;
+            //and those remaining columns.
+            //need two separate streams since we're reading from same file, else push backs in second while loop will be blank
+            stringstream split1(line), split2(line);
+
+            //since labels are whole numbers and ids are fractional, the terms will be separated automatically between both vectors
+            float data_ID;
+            int data_label;
             
-            
-            while(split >> data) {
-                ground_truth_label.back().push_back(data);
+            while(split1 >> data_ID) {
+                instance_ID.back().push_back(data_ID);
+            }
+            while(split2 >> data_label) {
+                ground_truth_label.back().push_back(data_label);
             }
         }
         myfile.close();
@@ -66,7 +68,7 @@ class Validator {
 		printf("Starting validation...");
 		t.start();
         for(int i = 0; i < instance_ID.size(); i++) {
-            vector<int> test_instance_ID = instance_ID;
+            vector<vector<float>> test_instance_ID = instance_ID;
             //train_instances = all other instances excluding test_instance
             //call Classifier.Test() and pass this test_instance_ID to it. It returns predicted_label
 
