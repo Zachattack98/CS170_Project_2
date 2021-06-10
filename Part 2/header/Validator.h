@@ -33,12 +33,29 @@ class Validator {
         //read all instance_IDs
         vector<int> instance_ID;
 
-        //read all ground_truth_labels
-        vector<int> ground_truth_label;
-
         while(getline(myfile, line)) {
             stringstream(line) >> label;
-            ground_truth_label.push_back(label);
+            instance_ID.push_back(label);
+        }
+
+        //read all ground_truth_labels
+        vector<vector<int>> ground_truth_label;
+        
+        fstream myfile;
+        myfile.open("large.txt");   //open file; read from the appropriate file
+        
+        string line;
+        while(getline(myfile,line)) {
+            ground_truth_label.push_back(vector<int>());
+            
+            //Break down the row to get only the values in the first column
+            stringstream split(line);
+            int data;
+            
+            
+            while(split >> data) {
+                ground_truth_label.back().push_back(data);
+            }
         }
         myfile.close();
         
