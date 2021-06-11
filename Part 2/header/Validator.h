@@ -50,8 +50,8 @@ class Validator {
 
         ValidTimer t;
         correct_predict_cnt = 0;
-        vector<double> test_instance_ID;
-        vector<double> train_instances;
+        double test_instance_ID[parse->rows];
+        double train_instances[parse->rows];
 
         int cnt = 0;
         int cnt2 = 0, cnt3 = 0;
@@ -60,19 +60,21 @@ class Validator {
         //timer start
 	    printf("Starting validation...");
 	    t.start();
-        
+
         for(int i = 0; i < parse->rows; i++) {
-            //if one of the rows matches as one of those being tested
             if((feat_subset[cnt]-1) == i){
-                for(int j = overall_cnt; j < ((parse->cols - 1) + overall_cnt); j++)
-                    test_instance_ID.push_back(instance_ID[j]);
+                for(int j = overall_cnt; j < ((parse->cols - 1) + overall_cnt); j++) {
+                    test_instance_ID[cnt2] = instance_ID[j];
+                    cnt2++;
+                }
                 cnt++;
             }
             
-            //else the row is considered training
             else {
-                for(int j = overall_cnt; j < ((parse->cols - 1) + overall_cnt); j++)
-                    train_instances.push_back(instance_ID[j]);
+                for(int j = overall_cnt; j < ((parse->cols - 1) + overall_cnt); j++) {
+                    train_instances[cnt3] = (instance_ID[j]);
+                    cnt3++;
+                }
             }
             overall_cnt += (parse->cols - 1);
 
