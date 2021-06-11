@@ -8,7 +8,7 @@
 #include <string>
 #include "ValidTimer.h"
 #include "Classifier.h"
-
+#include "Dataset.h"
 using namespace std;
 
 class Validator {
@@ -27,36 +27,25 @@ class Validator {
         for(int i = 0; i < subset.size(); i++)
             feat_subset[i] = subset[i];
 
-        //Read all instance IDs
-        vector<vector<float>> instance_ID;
-        //Read all ground truth labels
-        vector<vector<int>> ground_truth_label;
+    //read all instance IDs
+    vector<double> instance_ID;
+    //read all ground_truth_labels
+    vector<double> ground_truth_label;
         
-        ifstream myfile;
-        myfile.open(file_choice);   //open file; read from the appropriate file
-          
-        string line;
-        while(getline(myfile,line)) {
-            instance_ID.push_back(vector<float>());
-            ground_truth_label.push_back(vector<int>());
-            
-            //Break down the row to get only the values in the first column
-            //and those remaining columns.
-            //need two separate streams since we're reading from same file, else push backs in second while loop will be blank
-            stringstream split1(line), split2(line);
+    Dataset* parse = new Dataset();
+    
+    parse->RowsandColumns("large.txt");
+    parse->Parser("large.txt");
+    
+    cout << parse->rows << endl;
+    cout << parse->cols << endl;
+    
+    for(int i = 0; i < parse->rows; i++) 
+        ground_truth_label.push_back(parse->data[i][0]);  
 
-            //since labels are whole numbers and ids are fractional, the terms will be separated automatically between both vectors
-            float data_ID;
-            int data_label;
-            
-            while(split1 >> data_ID) {
-                instance_ID.back().push_back(data_ID);
-            }
-            while(split2 >> data_label) {
-                ground_truth_label.back().push_back(data_label);
-            }
-        }
-        myfile.close();
+    for(int i = 0; i < parse->rows; i++) 
+        for(int j = 1; j < parse->cols; j++) 
+            instance_ID.push_back(parse->data[i][j]);
         
         ValidTimer t;
         correct_predict_cnt = 0;
