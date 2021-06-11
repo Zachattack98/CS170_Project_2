@@ -27,40 +27,54 @@ class Validator {
         for(int i = 0; i < subset.size(); i++)
             feat_subset[i] = subset[i];
 
-    //read all instance IDs
-    vector<double> instance_ID;
-    //read all ground_truth_labels
-    vector<double> ground_truth_label;
+        //read all instance IDs
+        vector<double> instance_ID;
+        //read all ground_truth_labels
+        vector<double> ground_truth_label;
         
-    Dataset* parse = new Dataset();
+        Dataset* parse = new Dataset();
     
-    parse->RowsandColumns("large.txt");
-    parse->Parser("large.txt");
+        parse->RowsandColumns("large.txt");
+        parse->Parser("large.txt");
     
-    cout << parse->rows << endl;
-    cout << parse->cols << endl;
+        cout << parse->rows << endl;
+        cout << parse->cols << endl;
     
-    for(int i = 0; i < parse->rows; i++) 
-        ground_truth_label.push_back(parse->data[i][0]);  
+        for(int i = 0; i < parse->rows; i++) 
+            ground_truth_label.push_back(parse->data[i][0]);  
 
-    for(int i = 0; i < parse->rows; i++) 
-        for(int j = 1; j < parse->cols; j++) 
-            instance_ID.push_back(parse->data[i][j]);
+        for(int i = 0; i < parse->rows; i++) 
+            for(int j = 1; j < parse->cols; j++) 
+                instance_ID.push_back(parse->data[i][j]);
         
+
         ValidTimer t;
         correct_predict_cnt = 0;
-        float test_instance_ID = 0;
-        float train_instances = 0;
+        vector<double> test_instance_ID;
+        vector<double> train_instances;
+
+        int cnt = 0;
+        int cnt2 = 0, cnt3 = 0;
+        int overall_cnt = 0;
 
         //timer start
-		printf("Starting validation...");
-		t.start();
-        for(int i = 0; i < instance_ID.size(); i++) {
-            for(int j = 0; j < subset.size(); j++) {
-                test_instance_ID = instance_ID[feat_subset[j]-1][j];
+	    printf("Starting validation...");
+	    t.start();
+        
+        for(int i = 0; i < parse->rows; i++) {
+            //if one of the rows matches as one of those being tested
+            if((feat_subset[cnt]-1) == i){
+                for(int j = overall_cnt; j < ((parse->cols - 1) + overall_cnt); j++)
+                    test_instance_ID.push_back(instance_ID[j]);
+                cnt++;
             }
-
-            train_instances = test_instance_ID - feat_subset[i];
+            
+            //else the row is considered training
+            else {
+                for(int j = overall_cnt; j < ((parse->cols - 1) + overall_cnt); j++)
+                    train_instances.push_back(instance_ID[j]);
+            }
+            overall_cnt += (parse->cols - 1);
 
             Classifier* test = new Test(test_instance_ID);
 
@@ -71,14 +85,13 @@ class Validator {
 
         //timer stop
         t.stop();
-		printf("Time taken for validation = %0d ms", t.getTime());
+	    printf("Time taken for validation = %0d ms", t.getTime());
 
-		accuracy_scr  = correct_predict_cnt / (test_instance_ID + train_instances);
-		printf("Using features {%0d}, the accuracy is {%0f}", feat_subset, accuracy_scr);
+	    accuracy_scr  = correct_predict_cnt / (test_instance_ID + train_instances);
+	    printf("Using features {%0d}, the accuracy is {%0f}", feat_subset, accuracy_scr);
 		
         return accuracy_scr;
     }
 
 };
-
 #endif
