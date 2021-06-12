@@ -2,7 +2,6 @@
 #define CLASSIFIER_H_
 
 //#include <bits/stdc++.h>
-#include <iostream>
 #include <vector>
 #include <ctime>
 #include <time.h>
@@ -11,14 +10,9 @@
 class Classifier
 {
 public:
-        int predicted_label[41];
 	Dataset* training_data;
 	int feature_size;
 	vector<int> feature_indexes;
-        
-	Classifier() {
-        feature_size = 3;
-    }
 
 	void Train(Dataset* data, vector<int> &features) {
 	    training_data = data;
@@ -32,7 +26,7 @@ public:
 
 	int Test(int testing_instance)
 	{
-	    //int predicted_label;
+	    int predicted_label;
 	    double distance, shortest_class;
 	    double shortest_distance = 1000;
 	    double data[1][feature_size + 1];
@@ -53,12 +47,10 @@ public:
             }
             cout << training_data->data[i][0]<< ":" << distance << " ";
         }
-          
+
         predicted_label = shortest_class;
-        cout << "\n\nShortest distance: " << shortest_distance << endl;
-        
-        cout << "Predicted Label: ";
-        return predicted_label;
+        cout << endl << shortest_distance << endl;
+		return predicted_label;
 	}
 };
 
