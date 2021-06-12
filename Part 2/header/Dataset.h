@@ -9,11 +9,13 @@ using namespace std;
 class Dataset
 {
 public:
-    double data[1000][41];
+    double data[1002][41];
     int data_size, rows, cols;
 
     Dataset() {
         data_size = 0;
+        rows = 0;
+        cols = 0;
     }
 
     void RowsandColumns(string filename) {
@@ -49,11 +51,14 @@ public:
         while (!file.eof()) {
             for (int j = 0; j < cols; j++) {
                 file >> x;
-                cout << x << " ";
+                //cout << x << " ";
                 data[i][j] = x;
             }
-            cout << endl;
+            //cout << endl;
             i++;
+            
+            if(i >= 398)
+                i = 398;
         }
         data_size = i;
         
