@@ -80,7 +80,7 @@ class Validator {
             //Note: if both counters are the same we can use either, here we will use else
         }
 
-        else {
+       else {
         for(int i = 0; i < parse->rows; i++) {
             if((feat_subset[cnt]-1) == i){
                 for(int j = overall_cnt; j < ((parse->cols - 1) + overall_cnt); j++) {
@@ -88,6 +88,12 @@ class Validator {
                     cnt2++;
                     train_instances[cnt3] = 0;
                     cnt3++;
+                    
+                    predict = classifier->Test(i+1);
+                
+                    if(predict == ground_truth_label[i]) {
+                        correct_predict_cnt++;
+                    }
                 }
                 cnt++;
             }
@@ -109,17 +115,17 @@ class Validator {
                     correct_predict_cnt++;
                 }
         }
-        }
+       }
         //timer stop
         auto stop = high_resolution_clock::now();
         
         auto duration = duration_cast<microseconds>(stop - start);
 	    cout << "Time taken for validation = " << duration.count() << " ms";
 		
-
-        //cout << "\n\nCorrect: " << correct_predict_cnt << endl;
-        accuracy_scr  = correct_predict_cnt / (double)(sizeof(test_instance_ID) + sizeof(train_instances));
-	    cout << "\n\nUsing features { ";
+        cout << "\n\nCorrect: " << correct_predict_cnt << endl;
+        
+        accuracy_scr  = correct_predict_cnt / (double)parse->data_size;;
+	cout << "\n\nUsing features { ";
         for(int i = 0; i < subset.size(); i++)
             cout << feat_subset[i] << " ";
         cout << "}, we get accuracy " << accuracy_scr << endl;
