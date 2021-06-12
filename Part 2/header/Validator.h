@@ -83,7 +83,7 @@ class Validator {
             //Note: if both counters are the same we can use either, here we will use else
         }
 
-       else {
+     else {
         for(int i = 0; i < parse->rows; i++) {
             if((feat_subset[cnt]-1) == i){
                 for(int j = overall_cnt; j < ((parse->cols - 1) + overall_cnt); j++) {
@@ -115,7 +115,7 @@ class Validator {
                         correct_predict_cnt++;
                     }
         }
-       }
+     }
         //timer stop
         auto stop = high_resolution_clock::now();
         
