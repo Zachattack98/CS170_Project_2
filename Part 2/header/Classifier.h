@@ -41,13 +41,13 @@ public:
             for (int j = 0; j < feature_size; j++)
                 distance += pow(data[0][j] - training_data->data[i][feature_indexes.at(j)], 2);
             distance = sqrt(distance);
-            if (distance < shortest_distance && i < 399) {
+            if (distance < shortest_distance) {
                 shortest_distance = distance;
                 shortest_class = training_data->data[i][0];
             }
             //cout << training_data->data[i][0]<< ":" << distance << endl;
         }
-
+            
         predicted_label = shortest_class;
         cout << "\nShortest distance: " << shortest_distance << endl;
 		return predicted_label;
