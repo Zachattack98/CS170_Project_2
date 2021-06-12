@@ -39,6 +39,9 @@ class Validator {
         parse->RowsandColumns(file_choice);
         parse->Parser(file_choice);
         
+        cout << "Columns: " << parse->cols << endl;
+        cout << "Rows: " << parse->rows << endl;
+        
         for(int i = 0; i < parse->rows; i++) 
             ground_truth_label.push_back(parse->data[i][0]);  
 
@@ -89,13 +92,9 @@ class Validator {
                     train_instances[cnt3] = 0;
                     cnt3++;
                     
-                    predict = classifier->Test(i+1);
-                
-                    if(predict == ground_truth_label[i]) {
-                        correct_predict_cnt++;
-                    }
                 }
                 cnt++;
+                
             }
             
             else {
@@ -104,16 +103,17 @@ class Validator {
                     cnt2++;
                     train_instances[cnt3] = instance_ID[j];
                     cnt3++;
+
                 }
             }
             
             overall_cnt += (parse->cols - 1);
             
-            predict = classifier->Test(i+1);
+            predict = classifier->Test(i);
                 
-                if(predict == ground_truth_label[i]) {
-                    correct_predict_cnt++;
-                }
+                    if(predict == ground_truth_label[i]) {
+                        correct_predict_cnt++;
+                    }
         }
        }
         //timer stop
@@ -124,7 +124,7 @@ class Validator {
 		
         cout << "\n\nCorrect: " << correct_predict_cnt << endl;
         
-        accuracy_scr  = correct_predict_cnt / (double)parse->data_size;;
+        accuracy_scr  = correct_predict_cnt / (double)parse->data_size;
 	cout << "\n\nUsing features { ";
         for(int i = 0; i < subset.size(); i++)
             cout << feat_subset[i] << " ";
