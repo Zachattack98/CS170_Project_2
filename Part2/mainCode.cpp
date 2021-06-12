@@ -18,8 +18,9 @@ int main() {
     feats.push_back(1);
     feats.push_back(3);
     feats.push_back(5);
-    classifier->Train(data, 100, feats);
-    classifier->Test(0);
+    classifier->Train(data, feats);
+    //replace 1 in Test(1) with any instance to test accuracy for it
+    cout << "Class: " << classifier->Test(1);
 
 
 
