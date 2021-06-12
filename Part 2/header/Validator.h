@@ -90,12 +90,6 @@ class Validator {
                     cnt3++;
                 }
                 cnt++;
-                
-                predict = classifier->Test(i+1);
-            
-                if(predict == ground_truth_label[i]) {
-                    correct_predict_cnt++;
-                }
             }
             
             else {
@@ -109,6 +103,11 @@ class Validator {
             
             overall_cnt += (parse->cols - 1);
             
+            predict = classifier->Test(i+1);
+                
+                if(predict == ground_truth_label[i]) {
+                    correct_predict_cnt++;
+                }
         }
         }
         //timer stop
@@ -118,8 +117,9 @@ class Validator {
 	    cout << "Time taken for validation = " << duration.count() << " ms";
 		
 
-        accuracy_scr  = correct_predict_cnt / subset.size();
-	cout << "\n\nUsing features { ";
+        //cout << "\n\nCorrect: " << correct_predict_cnt << endl;
+        accuracy_scr  = correct_predict_cnt / (double)(sizeof(test_instance_ID) + sizeof(train_instances));
+	    cout << "\n\nUsing features { ";
         for(int i = 0; i < subset.size(); i++)
             cout << feat_subset[i] << " ";
         cout << "}, we get accuracy " << accuracy_scr << endl;
