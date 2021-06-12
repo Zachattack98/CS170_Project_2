@@ -9,10 +9,17 @@ using namespace std;
 int main() {
 
     Dataset* data = new Dataset();
-    data->Parser("cs_170_small90.txt");
+    data->RowsandColumns("../Part2/cs_170_small90.txt");
+    data->Parser("../Part2/cs_170_small90.txt");
     cout << "\ndata set size: " << data->data_size << endl;
 
-
+    Classifier *classifier = new Classifier;
+    vector<int> feats;
+    feats.push_back(1);
+    feats.push_back(3);
+    feats.push_back(5);
+    classifier->Train(data, 100, feats);
+    classifier->Test(0);
 
 
 
