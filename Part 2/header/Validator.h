@@ -6,10 +6,13 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <time.h>
+#include <chrono>   //required for auto time
 #include "ValidTimer.h"
 #include "Classifier.h"
 #include "Dataset.h"
 using namespace std;
+using namespace std::chrono;
 
 class Validator {
     public:
@@ -47,8 +50,8 @@ class Validator {
 
         ValidTimer t;
         correct_predict_cnt = 0;
-        double test_instance_ID[parse->rows];
-        double train_instances[parse->rows];
+        double test_instance_ID[parse->rows * (parse->cols - 1)];
+        double train_instances[parse->rows * (parse->cols - 1)];
 
         int cnt = 0;
         int cnt2 = 0, cnt3 = 0;
@@ -56,7 +59,7 @@ class Validator {
 
         //timer start
 	    printf("Starting validation...");
-	    t.start();
+	    auto start = high_resolution_clock::now();
 
         //calculate default rate; only for forward selection
         /*if(algorithm == 1) {
@@ -102,11 +105,10 @@ class Validator {
         }
         //}
         //timer stop
-        t.stop();
-	    printf("Time taken for validation = %0d ms", t.getTime());
-
-	    accuracy_scr  = correct_predict_cnt / (test_instance_ID + train_instances);
-	    printf("Using features {%0d}, the accuracy is {%0f}", feat_subset, accuracy_scr);
+        auto stop = high_resolution_clock::now();
+        
+        auto duration = duration_cast<microseconds>(stop - start);
+	    cout << "Time taken for validation = " << duration.count() << " ms";
 		
         return accuracy_scr;
     }
