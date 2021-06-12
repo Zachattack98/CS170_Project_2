@@ -16,7 +16,10 @@ public:
 	int feature_size;
 	vector<int> feature_indexes;
         
-        
+	Classifier() {
+        feature_size = 3;
+    }
+
 	void Train(Dataset* data, vector<int> &features) {
 	    training_data = data;
 	    feature_size = features.size();
