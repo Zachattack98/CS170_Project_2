@@ -55,7 +55,9 @@ class Validator {
         int cnt2 = 0, cnt3 = 0;
         int overall_cnt = 0;
 
-        
+        Classifier* classifier = new Classifier;
+        classifier->Train(parse, subset);
+                
         //timer start
 	    printf("\n\nStarting validation...\n");
 	    auto start = high_resolution_clock::now();
@@ -89,8 +91,7 @@ class Validator {
                 }
                 cnt++;
                 
-                Classifier* classify = new Classifier();
-                predict = classify->Test(i);
+                predict = classifier->Test(i+1);
             
                 if(predict == ground_truth_label[i]) {
                     correct_predict_cnt++;
@@ -116,6 +117,13 @@ class Validator {
         auto duration = duration_cast<microseconds>(stop - start);
 	    cout << "Time taken for validation = " << duration.count() << " ms";
 		
+
+        accuracy_scr  = correct_predict_cnt / subset.size();
+	cout << "\n\nUsing features { ";
+        for(int i = 0; i < subset.size(); i++)
+            cout << feat_subset[i] << " ";
+        cout << "}, we get accuracy " << accuracy_scr << endl;
+      
         return accuracy_scr;
     }
 
