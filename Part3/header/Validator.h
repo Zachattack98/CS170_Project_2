@@ -19,7 +19,7 @@ class Validator {
         string line;
         int label;
 
-    int leave_one_out_validation (vector<int> subset, string file_choice, int algorithm) {
+    double leave_one_out_validation (vector<int> subset, string file_choice, int algorithm) {
         int feat_subset[subset.size()]; //subset containing all features currently working with
         int correct_predict_cnt;    //keep track of all correct predictions
         ifstream myfile(file_choice);   //open file; read from the appropriate file
@@ -39,8 +39,8 @@ class Validator {
         parse->RowsandColumns(file_choice);
         parse->Parser(file_choice);
         
-        cout << "Columns: " << parse->cols << endl;
-        cout << "Rows: " << parse->rows << endl;
+//        cout << "Columns: " << parse->cols << endl;
+//        cout << "Rows: " << parse->rows << endl;
         
         for(int i = 0; i < parse->rows; i++) 
             ground_truth_label.push_back(parse->data[i][0]);  
@@ -62,7 +62,7 @@ class Validator {
         classifier->Train(parse, subset);
                 
         //timer start
-	    printf("\n\nStarting validation...\n");
+//	    printf("\n\nStarting validation...\n");
 	    auto start = high_resolution_clock::now();
 
         //calculate default rate; only for forward selection
@@ -120,15 +120,15 @@ class Validator {
         auto stop = high_resolution_clock::now();
         
         auto duration = duration_cast<microseconds>(stop - start);
-	    cout << "Time taken for validation = " << duration.count() << " ms";
+	    cout << "Time taken for validation = " << duration.count() << " ms\n";
 		
-        cout << "\n\nCorrect: " << correct_predict_cnt << endl;
+//        cout << "\n\nCorrect: " << correct_predict_cnt << endl;
         
         accuracy_scr  = correct_predict_cnt / (double)parse->data_size;
-	cout << "\n\nUsing features { ";
-        for(int i = 0; i < subset.size(); i++)
-            cout << feat_subset[i] << " ";
-        cout << "}, we get accuracy " << accuracy_scr << endl;
+//	cout << "\nUsing features { ";
+//        for(int i = 0; i < subset.size(); i++)
+//            cout << feat_subset[i] << " ";
+//        cout << "}, we get accuracy " << accuracy_scr << endl;
       
         return accuracy_scr;
     }

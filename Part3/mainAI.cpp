@@ -23,8 +23,6 @@ int main() {
              << endl;
         cin >> Algorithm;
 
-        //Problem problem;
-        //problem.algorithmchoice = Algorithm;
         if(Algorithm == 1) {
             Select* forward_selection = new Select(nfeatures);
             forward_selection->forwardSelect();
@@ -35,16 +33,6 @@ int main() {
         
             cout << "Total features eliminated: " << backward_elimination->eliminated << endl << endl;
         }
-        
-        /*if (problem.GraphSearch(root)) {
-            cout << "Solution Found!" << endl;
-            cout << problem.expandN << " nodes expanded." << endl;
-            cout << "The maximum number of nodes in the queue at any one time: " << problem.maxqueuesize << endl;
-        } else {
-            cout << "Solution Failed!" << endl;
-            cout << problem.expandN << " nodes expanded." << endl;
-            cout << "The maximum number of nodes in the queue at any one time: " << problem.maxqueuesize << endl;
-        }*/
 
         cout << "Proceed? (Y/N):" << endl;
         char proceed;

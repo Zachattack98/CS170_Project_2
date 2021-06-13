@@ -11,7 +11,7 @@ using namespace std;
 class Select {
 public:
     Node* root;
-    vector<char> feats = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm'};
+    vector<int> feats = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     int num_features;
     int selected; //total number of features that were selected
 
@@ -38,7 +38,7 @@ public:
 
     void expandChildren(Tree* tree) {
         int feature_size;
-        vector<char> new_features;
+        vector<int> new_features;
         Node* currNode = tree->currNode;
         feature_size = tree->currNode->curr_features.size();
 
@@ -50,7 +50,9 @@ public:
                 newNode->addFeature(new_features.at(i));
                 currNode->children.push_back(newNode);
             }
+            Validator *validator = new Validator;
             for (int i = 0; i < currNode->children.size(); i++) {
+                currNode->children.at(i)->set_FS_Accuracy(validator->leave_one_out_validation(currNode->children.at(i)->curr_features, "../Part3/small80.txt", 0));
                 cout << "Using feature(s) ";
                 currNode->children.at(i)->printFeats();
                 cout << " accuracy is " << currNode->children.at(i)->accuracy << endl;
@@ -80,9 +82,9 @@ public:
 
 
 
-    vector<char> validFeatures(Node* currNode, int feature_size) {
-        vector<char> new_feature;
-        vector<char> invalid_feats;
+    vector<int> validFeatures(Node* currNode, int feature_size) {
+        vector<int> new_feature;
+        vector<int> invalid_feats;
         bool invalid;
 
         if (feature_size == 0) {

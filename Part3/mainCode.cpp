@@ -3,49 +3,45 @@
 #include "Dataset.h"
 #include "Classifier.h"
 #include <iostream>
+#include "Tree.h"
+#include "forward_selection.h"
 
 using namespace std;
 
 int main() {
-//
-//    Dataset* data = new Dataset();
-//    data->RowsandColumns("../Part2/cs_170_small90.txt");
-//    data->Parser("../Part2/cs_170_small90.txt");
-//    cout << "\ndata set size: " << data->data_size << endl;
-//
-//    Classifier *classifier = new Classifier;
-    vector<int> feats;
-    feats.push_back(1);
-    feats.push_back(15);
-    feats.push_back(27);
 
-    //classifier->Train(data, feats);
-    //replace 1 in Test(1) with any instance to test accuracy for it
-    //cout << "Class: " << classifier->Test(1);
+    cout << "Welcome to Khuaja Shams's and Zachary Hill's Feature Selection Algorithm." << endl;
 
-    Validator *validator = new Validator;
-    validator->leave_one_out_validation(feats, "../Part3/large80.txt", 0);
-    
-//    int nfeatures;
+    while(1) {
+        int Algorithm;
+        int nfeatures;
 
-//    cout << endl << "Enter the number of features used: " << endl;
-//    cin >> nfeatures;
-//
-//    vector<int> feature_subset;
+        cout << endl << "Enter the number of features used in this algorithm: " << endl;
+        cin >> nfeatures;
 
-//    for(int i = 0; i < nfeatures; i++) {
-//        cout << endl << "Input feature #" << i << ": ";
-//        cin >> feature_subset[i];
+        cout << endl << "Now select the type of algorithm from the list below"
+             << "\n1. Forward Selection\n2. Backward Elimination\n3. Our Special Algorithm (not ready yet)"
+             << endl;
+        cin >> Algorithm;
+
+        if(Algorithm == 1) {
+            Select* forward_selection = new Select(nfeatures);
+            forward_selection->forwardSelect();
+        }
+
+        cout << "Proceed? (Y/N):" << endl;
+        char proceed;
+        cin >> proceed;
+        if (proceed != 'Y')
+            exit(0);
+    }
+
+//    vector<int> feats;
+//    feats.push_back(3);
+//    feats.push_back(5);
 //
-//        cout << endl;
-//    }
-//
-//    cout << "\n\nTotal accuracy score using subset {";
-//    for(int i = 0; i < nfeatures; i++) {
-//        cout << feature_subset[i];
-//        if(i != nfeatures-1)
-//            cout << ", ";
-//    }
-//    cout << "} is " << leave_one_out_validation(feature_subset) << "%" << endl << endl;
+//    Validator *validator = new Validator;
+//    cout << "acc: " << validator->leave_one_out_validation(feats, "../Part3/small80.txt", 0);
+
 
 }

@@ -49,7 +49,7 @@ public:
         }
 
         predicted_label = shortest_class;
-        cout << "\nShortest distance: " << shortest_distance << endl;
+//        cout << "\nShortest distance: " << shortest_distance << endl;
 		return predicted_label;
 	}
 };
