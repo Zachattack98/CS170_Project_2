@@ -40,18 +40,12 @@ class Validator {
         vector<double> instance_ID;
         //read all ground_truth_labels
         vector<double> ground_truth_label;
-        
-<<<<<<< HEAD
-        Dataset* parse = new Dataset();
 
-        parse->RowsandColumns(file_choice);
-        parse->Parser(file_choice);
-=======
 //        Dataset* parse = new Dataset();
 //
 //        parse->RowsandColumns(file_choice);
 //        parse->Parser(file_choice);
->>>>>>> 8ffda74d935252946580163725c662eeba1deb13
+
         
 //        cout << "Columns: " << parse->cols << endl;
 //        cout << "Rows: " << parse->rows << endl;
