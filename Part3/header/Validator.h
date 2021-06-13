@@ -18,6 +18,13 @@ class Validator {
         int num_lines = 0;  //number of rows with the given text file
         string line;
         int label;
+        Dataset* parse;
+
+    void initDataset(string file_choice) {
+        parse = new Dataset();
+        parse->RowsandColumns(file_choice);
+        parse->Parser(file_choice);
+    }
 
     double leave_one_out_validation (vector<int> subset, string file_choice, int algorithm) {
         int feat_subset[subset.size()]; //subset containing all features currently working with
@@ -35,7 +42,7 @@ class Validator {
         vector<double> ground_truth_label;
         
         Dataset* parse = new Dataset();
-    
+
         parse->RowsandColumns(file_choice);
         parse->Parser(file_choice);
         
@@ -46,7 +53,7 @@ class Validator {
             ground_truth_label.push_back(parse->data[i][0]);  
 
         for(int i = 0; i < parse->rows; i++) 
-            for(int j = 1; j < parse->cols; j++) 
+            for(int j = 1; j < parse->cols; j++)
                 instance_ID.push_back(parse->data[i][j]);
         
         correct_predict_cnt = 0;

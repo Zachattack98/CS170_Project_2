@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Tree.h"
 #include "forward_selection.h"
+#include "backward_elim.h"
 
 using namespace std;
 
@@ -13,10 +14,12 @@ int main() {
     cout << "Welcome to Khuaja Shams's and Zachary Hill's Feature Selection Algorithm." << endl;
 
     while(1) {
+        string filename;
         int Algorithm;
         int nfeatures;
-
-        cout << endl << "Enter the number of features used in this algorithm: " << endl;
+        cout << "\nType in the name of the file to test.\n";
+        cin >> filename;
+        cout  << "Enter the number of features used in this algorithm: " << endl;
         cin >> nfeatures;
 
         cout << endl << "Now select the type of algorithm from the list below"
@@ -25,8 +28,14 @@ int main() {
         cin >> Algorithm;
 
         if(Algorithm == 1) {
-            Select* forward_selection = new Select(nfeatures);
+            Select* forward_selection = new Select(nfeatures, filename);
             forward_selection->forwardSelect();
+        }
+        else if(Algorithm == 2) {
+            Eliminate* backward_elimination = new Eliminate(nfeatures, filename);
+            backward_elimination->backwardEliminate();
+        
+            cout << "Total features eliminated: " << backward_elimination->eliminated << endl << endl;
         }
 
         cout << "Proceed? (Y/N):" << endl;

@@ -11,54 +11,43 @@ using namespace std;
 class Eliminate {
 public:
     Node* root;
-    vector<char> feats = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm'};
-    vector<char> new_features;
+    vector<int> feats = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    vector<int> new_features;   //features in child nodes (one feature each)
     float default_acc = 0.0;    //accuracy for the root
     int num_features;       //number of features used in the tree
     int high_node = 0;    //locate the node with the highest accuracy in the given group of children
     float max_acc = 0.0;  //highest overall accuracy
+    string filename;
+    Validator *validator;
     
     int eliminated = 0; //total number of features that were eliminated
-    float accuracy[91]; //array of all accuracies found during the greedy search; not counting root
+    float accuracy[55]; //array of all accuracies found during the greedy search; not counting root
     float compare_acc[13]; //variable used to compare accuracy of each child and find/hold the highest in each group
+    int str_vfeat; //variable used to store feature before it is removed from subset to be verified
+
+    int nAcc = 0;   //number of total greedy accuracies
+    int drate_valid = 0;  //default rate validation
+    int acc_cnt2 = 0;                           //
+    int compare_cnt2 = 0;                       // counter variables
+    int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0; //
+
     
-    int acc_cnt2 = 0;                   //
-    int compare_cnt2 = 0;               // counter variables
-    int cnt1 = 0, cnt2 = 0, cnt3 = 0;   //
-        
-    
-    Eliminate(int feats) {
+    Eliminate(int feats, string file) {
         root = new Node();
+        filename = file;
         num_features = feats;
     }
 
     void backwardEliminate() {
-        Tree* tree = new Tree(root); 
+        Tree *tree = new Tree(root);
+        validator = new Validator;
+        validator->initDataset("../Part3/" + filename); 
         
-        int nAcc = 0;   //number of total greedy accuracies
-        int cnt = num_features;
-        vector<char> final_features; //array containing all features in best subset
+        vector<int> final_features; //array containing all features in best subset
         
-        //loop works as follows: cnt + (cnt-1) + (cnt-1-1) + (cnt-1-1-1)
-        //if num_features = 4 -> 4 + 3 + 2 + 1 = 10 random accuracies
-        for (int i = 0; i < num_features; i++) {
-            nAcc += cnt;
-            cnt--;
-        }
-        
-        //accuracies for all nodes that will be searched during the greedy search
-        srand((unsigned int)time(NULL));
-        default_acc = ((float)rand() / (float)(RAND_MAX)) * 100.0;
-
-        for (int i = 0; i < nAcc; i++) {
-            accuracy[i] = ((float)rand() / (float)(RAND_MAX)) * 100.0;
-        }
-            
-        cout << "\nInitial accuracy for root { "; 
-        for(int i=0; i < 13; i++)
-            cout << feats.at(i) << " ";
-        cout << "} : " << default_acc << "%";
-        cout << "\n\n";
+        //
+        //  accuracy calculations moved to parentSet()
+        //
         
         parentSet(tree);
         removeFeature(tree);
@@ -101,10 +90,18 @@ public:
                 final_features.push_back(feats.at(i));
         }
         
-        cout << "\n\nFinished search!!! The best feature subset { ";
-        for (int i = 0; i < num_features - eliminated; i++)
-            cout << final_features[i] << " ";
-        cout << "} had an accuracy of " << max_acc << "%" << endl;
+        //if root/default_acc contains the highest accuracy then reset 'eliminated' counter
+        if(max_acc == default_acc)
+            eliminated = 0;
+        
+        if(eliminated == num_features)  //no features would necessary to obtain the highest possible accuracy
+            cout << "\n\nFinished search!!! The default rate contains the highest accuracy of " << max_acc << endl;
+        else {
+            cout << "\n\nFinished search!!! The best feature subset { ";
+            for (int i = 0; i < num_features - eliminated; i++)
+                cout << final_features[i] << " ";
+            cout << "} had an accuracy of " << max_acc << endl;
+        }
         
         return;
     }
@@ -112,9 +109,9 @@ public:
     void removeFeature(Tree* tree) {
         Node* currNode = tree->currNode;
 
-        //display random accuracy (or percentage) within each node of given children
+        //display pre-calculated accuracy within each node of given children
         for (int i = 0; i < num_features - currNode->curr_features.size(); i++) {
-            cout << "Accuracy for removing feature {" << new_features.at(i) << "} : " << accuracy[acc_cnt2] << "%";
+            cout << "Accuracy for removing feature {" << new_features.at(i) << "} : " << accuracy[acc_cnt2];
             cout << "\n";
                     
             acc_cnt2++;
@@ -124,7 +121,7 @@ public:
         cout << "feature(s) removed: ";
         for (int j = 0; j < tree->currNode->curr_features.size(); j++)
             cout << tree->currNode->curr_features.at(j) << " ";
-        cout << "-> resulting in an accuracy of " << compare_acc[compare_cnt2] << "%";
+        cout << "-> resulting in an accuracy of " << compare_acc[compare_cnt2];
         cout << "\n\n";
 
         compare_cnt2++;
@@ -137,9 +134,41 @@ public:
         int feature_size;
         
         Node* currNode = tree->currNode;
+ 
         cout << "size: " << num_features - tree->currNode->curr_features.size() << endl;
         feature_size = num_features - tree->currNode->curr_features.size();
+        //cout << "Feature size: " << feature_size << endl;
+        
+        validator = new Validator;
+        vector<int> vfeats = validFeatures(currNode, feature_size);  //temporary vector 
+        int cnt5 = 0;   //counter
+        
+        //begin calculating accuracies for all nodes that will be searched during the greedy search
+        if(!drate_valid) {  //occurs only once
+            vector<int> dfeats;
+            for (int i = 0; i < num_features; i++)
+                dfeats.push_back(feats.at(i));
+            default_acc = validator->leave_one_out_validation(dfeats, "../Part3/" + filename, 2);
 
+            cout << "\nInitial accuracy for root { ";
+            for(int i=0; i < num_features; i++) {
+                cout << feats.at(i) << " ";
+            }
+            cout << "} : " << default_acc;
+            cout << "\n\n";
+        
+            drate_valid = 1;
+        }
+        //else {
+            for (int i = 0; i < num_features - cnt4; i++) {
+                str_vfeat = vfeats.at(cnt5);
+                vfeats.erase(vfeats.begin() + cnt5);    //erase each individual features to get the new accuracy
+                accuracy[i+cnt1] = validator->leave_one_out_validation(vfeats, "../Part3/" + filename, 2);
+                vfeats.insert(vfeats.begin() + cnt5, str_vfeat);    //restore that previously erased feature
+                cnt5++;
+            }
+            cnt4++;
+        //}
         
         if (feature_size != 0) {
             new_features = validFeatures(currNode, feature_size);
@@ -168,12 +197,11 @@ public:
         cnt3++;
     }
 
-    vector<char> validFeatures(Node* currNode, int feature_size) {
-        vector<char> new_feature;
-        vector<char> invalid_feats;
+    vector<int> validFeatures(Node* currNode, int feature_size) {
+        vector<int> new_feature;
+        vector<int> invalid_feats;
         bool invalid;
 
-        
         if (feature_size == num_features) {
             for (int i = 0; i < num_features; i++)
                 new_feature.push_back(feats.at(i));

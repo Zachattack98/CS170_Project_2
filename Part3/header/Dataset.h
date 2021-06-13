@@ -9,7 +9,7 @@ using namespace std;
 class Dataset
 {
 public:
-    double data[1002][41];
+    double data[1000][41];
     int data_size, rows, cols;
 
     Dataset() {
@@ -56,7 +56,7 @@ public:
             }
             //cout << endl;
             i++;
-
+            
         }
         data_size = i;
         
