@@ -13,10 +13,12 @@ int main() {
     cout << "Welcome to Khuaja Shams's and Zachary Hill's Feature Selection Algorithm." << endl;
 
     while(1) {
+        string filename;
         int Algorithm;
         int nfeatures;
-
-        cout << endl << "Enter the number of features used in this algorithm: " << endl;
+        cout << "\nType in the name of the file to test.\n";
+        cin >> filename;
+        cout  << "Enter the number of features used in this algorithm: " << endl;
         cin >> nfeatures;
 
         cout << endl << "Now select the type of algorithm from the list below"
@@ -25,7 +27,7 @@ int main() {
         cin >> Algorithm;
 
         if(Algorithm == 1) {
-            Select* forward_selection = new Select(nfeatures);
+            Select* forward_selection = new Select(nfeatures, filename);
             forward_selection->forwardSelect();
         }
 

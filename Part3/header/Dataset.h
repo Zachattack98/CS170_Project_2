@@ -51,7 +51,7 @@ public:
         while (!file.eof()) {
             for (int j = 0; j < cols; j++) {
                 file >> x;
-                //cout << x << " ";
+//                cout << x << " ";
                 data[i][j] = x;
             }
             //cout << endl;

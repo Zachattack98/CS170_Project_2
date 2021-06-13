@@ -11,17 +11,24 @@ using namespace std;
 class Select {
 public:
     Node* root;
-    vector<int> feats = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    vector<int> feats;
+    string filename;
     int num_features;
+    Validator *validator;
     int selected; //total number of features that were selected
 
-    Select(int feats) {
+    Select(int num_feats, string file) {
         root = new Node();
-        num_features = feats;
+        filename = file;
+        num_features = num_feats;
+        for (int i = 0; i < num_feats; i++)
+            feats.push_back(i + 1);
     }
 
     void forwardSelect() {
         Tree *tree = new Tree(root);
+        validator = new Validator;
+        validator->initDataset("../Part3/" + filename);
         if (num_features == 0) {
             pickChild(tree);
             cout << "Finished search!" << endl;
@@ -50,9 +57,9 @@ public:
                 newNode->addFeature(new_features.at(i));
                 currNode->children.push_back(newNode);
             }
-            Validator *validator = new Validator;
+//            Validator *validator = new Validator;
             for (int i = 0; i < currNode->children.size(); i++) {
-                currNode->children.at(i)->set_FS_Accuracy(validator->leave_one_out_validation(currNode->children.at(i)->curr_features, "../Part3/small80.txt", 0));
+                currNode->children.at(i)->set_FS_Accuracy(validator->leave_one_out_validation(currNode->children.at(i)->curr_features, "../Part3/" + filename, 0));
                 cout << "Using feature(s) ";
                 currNode->children.at(i)->printFeats();
                 cout << " accuracy is " << currNode->children.at(i)->accuracy << endl;
