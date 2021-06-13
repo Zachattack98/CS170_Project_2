@@ -41,22 +41,12 @@ class Validator {
         //read all ground_truth_labels
         vector<double> ground_truth_label;
         
-        Dataset* parse = new Dataset();
-
-        parse->RowsandColumns(file_choice);
-        parse->Parser(file_choice);
-
-//        Dataset* parse = new Dataset();
-//
-//        parse->RowsandColumns(file_choice);
-//        parse->Parser(file_choice);
-        
 //        cout << "Columns: " << parse->cols << endl;
 //        cout << "Rows: " << parse->rows << endl;
         
         for(int i = 0; i < parse->rows; i++) 
             ground_truth_label.push_back(parse->data[i][0]);  
-
+        
         for(int i = 0; i < parse->rows; i++) 
             for(int j = 1; j < parse->cols; j++)
                 instance_ID.push_back(parse->data[i][j]);
@@ -75,27 +65,9 @@ class Validator {
                 
         //timer start
 //	    printf("\n\nStarting validation...\n");
-	    auto start = high_resolution_clock::now();
+	    //auto start = high_resolution_clock::now();
 
-        //calculate default rate; only for forward selection
-        if(algorithm == 1) {
-            for(int i = 0; i < parse->rows; i++) {
-                if(ground_truth_label[i] == 1)
-                    cnt2++;
-                else if(ground_truth_label[i] == 2)
-                    cnt3++;
-            }
-
-            if(cnt2 < cnt3) {
-                correct_predict_cnt = cnt2;
-            }
-            else {
-                correct_predict_cnt = cnt3;
-            }
-            //Note: if both counters are the same we can use either, here we will use else
-        }
-
-       else {
+       
         for(int i = 0; i < parse->rows; i++) {
             if((feat_subset[cnt]-1) == i){
                 for(int j = overall_cnt; j < ((parse->cols - 1) + overall_cnt); j++) {
@@ -127,12 +99,11 @@ class Validator {
                         correct_predict_cnt++;
                     }
         }
-       }
         //timer stop
-        auto stop = high_resolution_clock::now();
+        //auto stop = high_resolution_clock::now();
         
-        auto duration = duration_cast<microseconds>(stop - start);
-	    cout << "Time taken for validation = " << duration.count() << " ms\n";
+        //auto duration = duration_cast<microseconds>(stop - start);
+	    //cout << "Time taken for validation = " << duration.count() << " ms\n";
 		
 //        cout << "\n\nCorrect: " << correct_predict_cnt << endl;
         

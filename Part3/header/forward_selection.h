@@ -28,7 +28,7 @@ public:
     void forwardSelect() {
         Tree *tree = new Tree(root);
         validator = new Validator;
-        validator->initDataset("../Part3/" + filename);
+        validator->initDataset(filename);
         if (num_features == 0) {
             pickChild(tree);
             cout << "Finished search!" << endl;
@@ -59,7 +59,7 @@ public:
             }
 //            Validator *validator = new Validator;
             for (int i = 0; i < currNode->children.size(); i++) {
-                currNode->children.at(i)->set_FS_Accuracy(validator->leave_one_out_validation(currNode->children.at(i)->curr_features, "../Part3/" + filename, 0));
+                currNode->children.at(i)->set_FS_Accuracy(validator->leave_one_out_validation(currNode->children.at(i)->curr_features, filename, 1));
                 cout << "Using feature(s) ";
                 currNode->children.at(i)->printFeats();
                 cout << " accuracy is " << currNode->children.at(i)->accuracy << endl;

@@ -11,7 +11,8 @@ using namespace std;
 class Eliminate {
 public:
     Node* root;
-    vector<int> feats = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    //vector<int> feats = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40};
+    vector<int> feats;
     vector<int> new_features;   //features in child nodes (one feature each)
     float default_acc = 0.0;    //accuracy for the root
     int num_features;       //number of features used in the tree
@@ -32,16 +33,18 @@ public:
     int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0; //
 
     
-    Eliminate(int feats, string file) {
+    Eliminate(int num_feats, string file) {
         root = new Node();
         filename = file;
-        num_features = feats;
+        num_features = num_feats;
+        for (int i = 0; i < num_feats; i++)
+            feats.push_back(i + 1);
     }
 
     void backwardEliminate() {
         Tree *tree = new Tree(root);
         validator = new Validator;
-        validator->initDataset("../Part3/" + filename); 
+        validator->initDataset(filename); 
         
         vector<int> final_features; //array containing all features in best subset
         
@@ -139,7 +142,7 @@ public:
         feature_size = num_features - tree->currNode->curr_features.size();
         //cout << "Feature size: " << feature_size << endl;
         
-        validator = new Validator;
+        //validator = new Validator;
         vector<int> vfeats = validFeatures(currNode, feature_size);  //temporary vector 
         int cnt5 = 0;   //counter
         
@@ -148,7 +151,7 @@ public:
             vector<int> dfeats;
             for (int i = 0; i < num_features; i++)
                 dfeats.push_back(feats.at(i));
-            default_acc = validator->leave_one_out_validation(dfeats, "../Part3/" + filename, 2);
+            default_acc = validator->leave_one_out_validation(dfeats, filename, 2);
 
             cout << "\nInitial accuracy for root { ";
             for(int i=0; i < num_features; i++) {
@@ -163,7 +166,7 @@ public:
             for (int i = 0; i < num_features - cnt4; i++) {
                 str_vfeat = vfeats.at(cnt5);
                 vfeats.erase(vfeats.begin() + cnt5);    //erase each individual features to get the new accuracy
-                accuracy[i+cnt1] = validator->leave_one_out_validation(vfeats, "../Part3/" + filename, 2);
+                accuracy[i+cnt1] = validator->leave_one_out_validation(vfeats, filename, 2);
                 vfeats.insert(vfeats.begin() + cnt5, str_vfeat);    //restore that previously erased feature
                 cnt5++;
             }
