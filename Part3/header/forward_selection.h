@@ -75,7 +75,7 @@ public:
         Node* currNode = tree->currNode;
         Node* maxNode = tree->currNode;
         for (int i = 0; i < currNode->children.size(); i++) {
-            if (maxNode->accuracy < tree->currNode->children.at(i)->accuracy) {
+            if (maxNode->accuracy <= tree->currNode->children.at(i)->accuracy) {
                 maxNode = currNode->children.at(i);
                 child_chosen = true;
             }
