@@ -29,6 +29,8 @@ public:
         Tree *tree = new Tree(root);
         validator = new Validator;
         validator->initDataset(filename);
+        root->set_FS_Accuracy(validator->initRootAccuracy());
+
         if (num_features == 0) {
             pickChild(tree);
             cout << "Finished search!" << endl;

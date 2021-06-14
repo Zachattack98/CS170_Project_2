@@ -19,6 +19,7 @@ int main() {
         int nfeatures;
         cout << "\nType in the name of the file to test.\n";
         cin >> filename;
+        filename = "../Part3/" + filename;
         cout  << "Enter the number of features used in this algorithm: " << endl;
         cin >> nfeatures;
 

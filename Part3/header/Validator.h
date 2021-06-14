@@ -26,6 +26,10 @@ class Validator {
         parse->Parser(file_choice);
     }
 
+    double initRootAccuracy() {
+        return parse->defaultRate();
+    }
+
     double leave_one_out_validation (vector<int> subset, string file_choice, int algorithm) {
         int feat_subset[subset.size()]; //subset containing all features currently working with
         int correct_predict_cnt;    //keep track of all correct predictions
