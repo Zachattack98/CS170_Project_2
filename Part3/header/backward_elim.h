@@ -22,13 +22,12 @@ public:
     Validator *validator;
     
     int eliminated = 0; //total number of features that were eliminated
-    float accuracy[55]; //array of all accuracies found during the greedy search; not counting root
-    float compare_acc[13]; //variable used to compare accuracy of each child and find/hold the highest in each group
+    float accuracy[66]; //array of all accuracies found during the greedy search; not counting root
+    float compare_acc[40]; //variable used to compare accuracy of each child and find/hold the highest in each group
     int str_vfeat; //variable used to store feature before it is removed from subset to be verified
 
     int nAcc = 0;   //number of total greedy accuracies
     int drate_valid = 0;  //default rate validation
-    int acc_cnt2 = 0;                           //
     int compare_cnt2 = 0;                       // counter variables
     int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0; //
 
@@ -55,7 +54,6 @@ public:
         parentSet(tree);
         removeFeature(tree);
 
-        
         for (int i = 0; i < num_features-1; i++) {
             parentSet(tree);
             removeFeature(tree);
@@ -114,10 +112,8 @@ public:
 
         //display pre-calculated accuracy within each node of given children
         for (int i = 0; i < num_features - currNode->curr_features.size(); i++) {
-            cout << "Accuracy for removing feature {" << new_features.at(i) << "} : " << accuracy[acc_cnt2];
+            cout << "Accuracy for removing feature {" << new_features.at(i) << "} : " << accuracy[i];
             cout << "\n";
-                    
-            acc_cnt2++;
         }
         
         tree->currNode = currNode->children.at(high_node);
@@ -187,14 +183,13 @@ public:
         
         //acquire all values/accuracies for compare_acc
         for (int i = cnt1; i < (cnt1 + num_features - currNode->curr_features.size()); i++) {  
-            if (i == 0)
+            if (i == cnt1)
                 compare_acc[cnt3] = accuracy[0];    //this will only implement once
             if (compare_acc[cnt3] < accuracy[i]) {
                 compare_acc[cnt3] = accuracy[i];    //assignment only the highest accuracy among each set of children     
                 high_node = i - cnt1;
             }
-                
-            cnt2++;
+            
         }
         cnt1 = cnt2;
         cnt3++;

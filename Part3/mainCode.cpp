@@ -19,7 +19,6 @@ int main() {
         int nfeatures;
         cout << "\nType in the name of the file to test.\n";
         cin >> filename;
-        filename = "../Part3/" + filename;
         cout  << "Enter the number of features used in this algorithm: " << endl;
         cin >> nfeatures;
 
@@ -45,13 +44,4 @@ int main() {
         if (proceed != 'Y')
             exit(0);
     }
-
-//    vector<int> feats;
-//    feats.push_back(3);
-//    feats.push_back(5);
-//
-//    Validator *validator = new Validator;
-//    cout << "acc: " << validator->leave_one_out_validation(feats, "../Part3/small80.txt", 0);
-
-
 }
