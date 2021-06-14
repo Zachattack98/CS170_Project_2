@@ -3,7 +3,7 @@ project(CS170_Project_2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(Part3, Part3/header)
+include_directories(header)
 
 add_executable(CS170_Project_2
-        Part3/mainCode.cpp )
+        mainCode.cpp)

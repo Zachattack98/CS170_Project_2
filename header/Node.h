@@ -12,18 +12,17 @@ class Node {
     public:
         Node* parent;
         vector<Node*> children;
-        vector<char> curr_features;
+        vector<int> curr_features;
         float accuracy, be_accuracy;
 
         Node() {
              parent = nullptr;
-             accuracy = set_FS_Accuracy();
+             accuracy = 0;
              //be_accuracy = set_BE_Accuracy();
         }
 
         Node(Node* node) {
             parent = node;
-            accuracy = set_FS_Accuracy();
             //be_accuracy = set_BE_Accuracy();
         }
 
@@ -42,8 +41,8 @@ class Node {
         }
 
         //accuracies in first selection
-        float set_FS_Accuracy() {
-            return rand()%100 + 1;
+        void set_FS_Accuracy(double acc) {
+            accuracy = acc;
         }
 
         //accuracies in backward elimination
