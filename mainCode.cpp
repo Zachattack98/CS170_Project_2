@@ -17,7 +17,7 @@ int main() {
         string filename;
         int Algorithm;
         int nfeatures;
-        cout << "\nType in the name of the file to test.\n";
+        cout << "\nType in the name of the text file to test.\nMake SURE that the text file is in the /testfiles directory!\n";
         cin >> filename;
         filename = "textfiles/" + filename;
         cout  << "Enter the number of features used in this algorithm: " << endl;
