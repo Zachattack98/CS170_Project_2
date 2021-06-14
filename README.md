@@ -5,7 +5,7 @@ The following is a guideline of what is expected when implementing the code and 
 
 There will be four .txt files containing datasets to test in the program, your job as a user is to select which .txt file to test, decide how many features will be considered in the leave-one-out validation, and the type of sorting algorithm. The results will reveal the correct tree path for finding the highest accuracy.
 
-First, run the output frame of mainCode.cpp in the open terminal by typing $output mainCode.cpp.
+First, run the output frame of mainCode.cpp in the open terminal by typing: **./runproject** 
 
 (1)
 
