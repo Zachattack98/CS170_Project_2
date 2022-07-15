@@ -9,7 +9,7 @@ First, run the output frame of mainCode.cpp in the open terminal by typing: **./
 
 (1)
 
-You will see a message asking you to type the exact name of he text file, without any quotations, you wish to use data from. Keep in mind there are only four datasets to select (cs_170_small26.txt, cs_170_large26.txt, cs_170_small90.txt, cs_170_small90.txt), be sure to type one of these files EXACTLY as shown in the parentheses. Then you press Enter and move forward.
+You will see a message asking you to type the exact name of the text file, without any quotations, you wish to use data from. Keep in mind there are only four datasets to select (cs_170_small26.txt, cs_170_large26.txt, cs_170_small90.txt, cs_170_small90.txt), be sure to type one of these files EXACTLY as shown in the parentheses. Then you press Enter and move forward.
 
 ![Intro](/readme_pdfs/Intro.pdf)
 (2)
